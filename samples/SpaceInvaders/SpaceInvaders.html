@@ -6,12 +6,17 @@
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css" />
   </head>
 
-  <body>
-    <canvas id="canvas_background" width="800" height="600"></canvas>
-    <canvas id="canvas_enemies" width="800" height="600"></canvas>
-    <canvas id="canvas_ally" width="800" height="600"></canvas>
-    <canvas id="canvas_bullets" width="800" height="600"></canvas>
-    <script src="scripts/mainScript.js"></script>
+  <body onload="init()">
+    <div id="canvases">
+      <canvas id="canvas_background" width="800" height="600"></canvas>
+      <canvas id="canvas_enemies" width="800" height="600"></canvas>
+      <canvas id="canvas_ally" width="800" height="600"></canvas>
+      <canvas id="canvas_bullets" width="800" height="600"></canvas>
+      <script src="scripts/Sprite.js"></script>
+      <script src="scripts/GameObject.js"></script>
+      <script src="scripts/Scene.js"></script>
+      <script src="scripts/Game.js"></script>
+    </div>
   </body>
 
 </html>
