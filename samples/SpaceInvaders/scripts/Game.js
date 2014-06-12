@@ -2,22 +2,43 @@ var game = new Game();
 
 function init() {
     game.init();
-    game.start();
 }
+
+
+/**	
+ * requestAnim shim layer by Paul Irish
+ * Finds the first API that works to optimize the animation loop, 
+ * otherwise defaults to setTimeout().
+ */
+window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame   || 
+	window.webkitRequestAnimationFrame || 
+	window.mozRequestAnimationFrame    || 
+	window.oRequestAnimationFrame      || 
+	window.msRequestAnimationFrame     || 
+	function(callback, 
+		 element){
+	    alert("request");
+	    window.setTimeout(callback, 1000 / 60); // handle FPS
+	};
+})();
+
+function loop() {
+    game.loop();
+    // TODO: check validation
+    requestAnimFrame(loop);
+}
+
 
 /*
  * Encapsulation for general game infos
  */
 function Game() {
-
+    
     this.init = function() {
 	this.scene = new Level();
 	this.scene.init();
-    };
-
-    this.start = function() {
-	this.update();
-	this.draw();
+	requestAnimFrame(loop);
     };
 
     this.update = function() {
@@ -32,6 +53,11 @@ function Game() {
 	this.scene.exit();
     };
 
+    this.loop = function() {
+	alert("loop");
+	this.update();
+	this.draw();
+    };
 }
 
 
