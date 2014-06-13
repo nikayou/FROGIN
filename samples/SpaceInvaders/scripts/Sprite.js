@@ -18,7 +18,7 @@ function Sprite() {
 	context.drawImage(this.texture, 
 			  this.x, this.y, 
 			  this.width, this.height,
-			  0, 0, 
+			  x, y, 
 			  this.width, this.height);
     }
 
