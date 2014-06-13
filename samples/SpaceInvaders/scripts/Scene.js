@@ -17,7 +17,7 @@ function Level() {
     this.init = function() {
 	this.initRenderer();
 	this.background = new Background();
-	this.background.init("bg", 0, 0, 0, -3);
+	this.background.init("bg", 0, 0, 0, 0);
     };
     this.initRenderer = function() {
 	this.canvas_background = document.getElementById("canvas_background");
