@@ -1,3 +1,7 @@
+/**
+ * Scene is a state of a game. Only the current state is handled by the loop. 
+ * The game logic should be here. 
+ */
 function Scene() {
     this.init = function() {};
     this.initRenderer = function() {};
@@ -6,6 +10,9 @@ function Scene() {
     this.exit = function() {};
 }
 
+/**
+ * Level is the main scene, where the player attacks enemies
+ */
 function Level() {
     this.init = function() {
 	this.initRenderer();

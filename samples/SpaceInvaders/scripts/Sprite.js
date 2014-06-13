@@ -1,3 +1,9 @@
+/**
+ * Sprite is a facility class to help clipping images. 
+ * texture : reference to an image (often HTMLImageElement)
+ * x, y : starting point of the clip in the image
+ * width, height : dimensions of the clip
+ */
 function Sprite() {
 
     this.init = function(img, x, y, w, h) {

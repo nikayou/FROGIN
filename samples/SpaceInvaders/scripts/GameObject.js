@@ -1,3 +1,6 @@
+/**
+ * GameObjects are objects held by a scene. They can be updated and drawn
+ */
 function GameObject() {
     this.init = function(name) {
 	this.name = name;
@@ -7,6 +10,12 @@ function GameObject() {
     this.exit = function() {};
 }
 
+/**
+ * Background is the bottom layer. 
+ * x, y : position on the canvas
+ * speedX, speedY : movement
+ * sprite : imageClip
+ */
 function Background() {
     this.init = function(name, x, y, sX, sY) {
 	this.name = name;

@@ -1,5 +1,8 @@
 var game = new Game();
 
+/**
+ * Initializes the game
+ */
 function init() {
     game.init();
 }
@@ -10,6 +13,7 @@ function init() {
  * Finds the first API that works to optimize the animation loop, 
  * otherwise defaults to setTimeout().
  */
+// TODO : don't need to check everytime, can just store the good API
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame   || 
 	window.webkitRequestAnimationFrame || 
@@ -23,6 +27,10 @@ window.requestAnimFrame = (function(){
 	};
 })();
 
+
+/**
+ * Function to call every frame
+ */
 function loop() {
     game.loop();
     // TODO: check validation
@@ -30,8 +38,9 @@ function loop() {
 }
 
 
-/*
- * Encapsulation for general game infos
+/**
+ * Encapsulation for general game infos.
+ * scene : current scene, base for update and rendering. 
  */
 function Game() {
     
@@ -53,8 +62,10 @@ function Game() {
 	this.scene.exit();
     };
 
+    /*
+     * Called every frame, just computes the new state as a scene and renders it
+     */
     this.loop = function() {
-	alert("loop");
 	this.update();
 	this.draw();
     };
