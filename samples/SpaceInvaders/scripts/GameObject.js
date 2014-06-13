@@ -29,10 +29,14 @@ function Background() {
     this.update = function() {
 	this.x += this.speedX;
 	this.y += this.speedY;
+	if (this.y <= -600 || this.y > 600) {
+	    this.y = 0;
+	}
     };
     this.draw = function() {
 	this.sprite.draw(this.context, this.x, this.y);
 	this.sprite.draw(this.context, this.x, this.y - this.canvasHeight);
+	this.sprite.draw(this.context, this.x, this.y + this.canvasHeight);
     };
 }
 Background.prototype = new GameObject();
