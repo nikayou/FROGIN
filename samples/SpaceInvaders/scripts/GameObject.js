@@ -5,8 +5,11 @@ function GameObject() {
     this.init = function(name) {
 	this.name = name;
     };
-    this.update = function() {};
-    this.draw = function() {};
+    this.update = function() {
+    };
+    this.draw = function() {
+	this.graphics.draw(this.context, this.x, this.y);
+    };
     this.exit = function() {};
 }
 
@@ -14,7 +17,7 @@ function GameObject() {
  * Background is the bottom layer. 
  * x, y : position on the canvas
  * speedX, speedY : movement
- * sprite : imageClip
+ * graphics : imageClip
  */
 function Background() {
     this.init = function(name, x, y, sX, sY) {
@@ -23,8 +26,8 @@ function Background() {
 	this.y = y;
 	this.speedX = sX;
 	this.speedY = sY;
-	this.sprite = new Sprite();
-	this.sprite.init(imageHolder.background, 0, 0, 800, 600);
+	this.graphics = new Sprite();
+	this.graphics.init(imageHolder.background, 0, 0, 800, 600);
     };
     this.update = function() {
 	this.x += this.speedX;
@@ -34,9 +37,24 @@ function Background() {
 	}
     };
     this.draw = function() {
-	this.sprite.draw(this.context, this.x, this.y);
-	this.sprite.draw(this.context, this.x, this.y - this.canvasHeight);
-	this.sprite.draw(this.context, this.x, this.y + this.canvasHeight);
+	this.graphics.draw(this.context, this.x, this.y);
+	this.graphics.draw(this.context, this.x, this.y - this.canvasHeight);
+	this.graphics.draw(this.context, this.x, this.y + this.canvasHeight);
     };
 }
 Background.prototype = new GameObject();
+
+
+function Player() {
+    this.init = function(name, x, y) {
+	this.name = name;
+	this.x = x;
+	this.y = y;
+	this.graphics = new Sprite();
+	this.graphics.init(imageHolder.spritesheet, 128, 96, 32, 32);
+    }
+    this.update = function() {
+	Player.prototype.update();
+    }
+}
+Player.prototype = new GameObject();
