@@ -30,6 +30,8 @@ function Level() {
 	this.background.init("bg", 0, 0, 0, 0);
 	this.player = new Player();
 	this.player.init("player", 30, 60);
+	this.enemy = new Enemy();
+	this.enemy.init("enemy", 80, 60);
     };
     this.initRenderer = function() {
 	this.canvas_background = document.getElementById("canvas_background");
@@ -45,6 +47,10 @@ function Level() {
 	    Background.prototype.canvasHeight = this.canvas_background.height;
 	    this.context_enemies = this.canvas_enemies.getContext("2d");
 	    // enemies
+	    this.context_enemies = this.canvas_enemies.getContext("2d");
+	    Enemy.prototype.context = this.context_enemies;
+	    Enemy.prototype.canvasWidth = this.canvas_enemies.width;
+	    Enemy.prototype.canvasHeight = this.canvas_enemies.height;	    
 	    // ally
 	    this.context_ally = this.canvas_ally.getContext("2d");
 	    Player.prototype.context = this.context_ally;
@@ -62,6 +68,7 @@ function Level() {
     this.draw = function() {
 	this.background.draw();
 	this.player.draw();
+	this.enemy.draw();
     };
     this.exit = function() {
 	this.player.exit();
