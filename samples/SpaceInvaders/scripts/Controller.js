@@ -24,15 +24,16 @@ function Controller() {
     }
 
     // adds an event to the registered event
-    this.registrerEvent = function(e) {
+    this.registerEvent = function(e) {	
 	events[events.length] = e;
     }
 
     // takes an action, and return the first event triggered by this action
-    this.getEventIndex = function(a) {
+    getEventIndex = function(a) {
 	for (var i = 0; i < events.length; i++) {
-	    if (events[i].action == a)
+	    if (events[i].action == a){
 		return i;
+	    }
 	}
 	return -1;
     }
@@ -41,40 +42,13 @@ function Controller() {
 	return events;
     }
 
-    this.updateDown = function(e) {
-	var localEvent = getEventIfRegistered(e);
-	if (localEvent != null) {
-	    // if action has been registered, then update the event
-	    // and push its command to the list
-	    localEvent.wasDown = true;
-	    if (  localEvent.trigger == TRIGGER_MAINTAIN ||
-		 (localEvent.trigger == TRIGGER_PRESSED 
-		  && (!localEvent.wasDown)) ) {
-		// adding the command 
-		commands[commands.length] = localEvent.command;
-	    }
+    this.getCommands = function() {
+	var st = "all commands to perform : ";
+	for (c in commands) {
+	    st += c+"\n";
 	}
-    }
-
-    this.updateUp = function(e) {
-	var localEvent = getEventIfRegistered(e);
-	if (localEvent != null) {
-	    // if action has been registered, then update the event
-	    // and push its command to the list	    
-	    localEvent.wasDown = false;
-	    if (localEvent.trigger == TRIGGER_RELEASED) {
-		// adding the command 
-		commands[commands.length] = localEvent.command;
-	    }
-	}
-    }
-
-    this.cleanCommands = function() {
-	commands = [];
-    }
-
-    this.cleanEvents = function() {
-	events = [];
+//	console.log(st);
+	return commands;
     }
 
     var getEventIfRegistered = function(e) {
@@ -90,8 +64,52 @@ function Controller() {
 	} else {
 	    return null;
 	}
+	return null;
+    };
+
+    this.updateDown = function(e) {
+	var localEvent = getEventIfRegistered(e);
+	if (localEvent != null) {
+	    // if action has been registered, then update the event
+	    // and push its command to the list
+//	    console.log("(D)was down ? "+localEvent.wasDown);
+	    if (  localEvent.trigger == TRIGGER_MAINTAIN ||
+		  (localEvent.trigger == TRIGGER_PRESSED 
+		   && (!localEvent.wasDown)) ) {
+		// adding the command 
+		// TODO : don't call commands immediately (?)
+/*		window.alert("adding command "+localEvent.command);
+		commands[commands.length] = localEvent.command;
+		};
+*/
+		localEvent.command.call();
+	    }
+	    localEvent.wasDown = true;
+	} else {
+	}
     }
 
+    this.updateUp = function(e) {
+	var localEvent = getEventIfRegistered(e);
+	if (localEvent != null) {
+	    // if action has been registered, then update the event
+	    // and push its command to the list	    
+//	    console.log("(U)was down ? "+localEvent.wasDown);
+	    if (localEvent.trigger == TRIGGER_RELEASED) {
+		// adding the command 
+		commands[commands.length] = localEvent.command;
+	    }
+	    localEvent.wasDown = false;
+	}
+    }
+
+    this.cleanCommands = function() {
+	commands = [];
+    }
+
+    this.cleanEvents = function() {
+	events = [];
+    }
 
 }
 
@@ -129,7 +147,7 @@ function Event() {
 	if (trigger == TRIGGER_PRESSED ||
 	    trigger == TRIGGER_RELEASED ||
 	    trigger == TRIGGER_MAINTAIN) {
-	this.trigger = trigger;
+	    this.trigger = trigger;
 	}
     }    
 

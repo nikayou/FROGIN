@@ -32,6 +32,14 @@ function Level() {
 	this.player.init("player", 30, 60);
 	this.enemy = new Enemy();
 	this.enemy.init("enemy", 80, 60);
+	// init controller
+	this.controller = new Controller();
+	window.addEventListener("keydown", this.controller.updateDown, false);
+	window.addEventListener("keyup", this.controller.updateUp, false);
+	var spaceAction = function(){console.log("PIOU");};
+	var event = new Event();
+	event.init("space", spaceAction);
+	this.controller.registerEvent(event);
     };
     this.initRenderer = function() {
 	this.canvas_background = document.getElementById("canvas_background");
@@ -62,8 +70,15 @@ function Level() {
     };
     this.update = function() {
 	Level.prototype.update();
+//	console.log("getting commands");
+	var commands = this.controller.getCommands();
+	for (c in commands ) {
+	    window.alert("command "+c);
+	    c.call(c);
+	}
 	this.background.update();
 	this.player.update();
+	this.controller.cleanCommands();
     };
     this.draw = function() {
 	this.background.draw();
