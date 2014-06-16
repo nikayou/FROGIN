@@ -1,9 +1,20 @@
+/**
+ * This file is the main script : it creates the game, initializes it, 
+ * and handles the loop.
+ * 
+ * Variables : 
+ * game - current instance of the game
+ * imageHolder - image manager, loading required images
+ */
+
+
 var game = new Game();
 
-/**
- * Initializes the game
- */
+
 function init() {
+    /**
+     * Initializes the game
+     */
     game.init();
 }
 
@@ -38,12 +49,13 @@ function loop() {
 }
 
 
-/**
- * Encapsulation for general game infos.
- * scene : current scene, base for update and rendering. 
- */
 function Game() {
-    
+    /**
+     * Game is an encapsulation for general game instance infos. 
+     * 
+     * Members :
+     * scene - current scene, being updated and rendered
+     */
     this.init = function() {
 	this.scene = new Level();
 	this.scene.init();

@@ -1,3 +1,8 @@
+/**
+ * Here are defined every action possibly triggered during the game. 
+ * Keys are the code of the key. 
+ * Values are the name of the action (paramter "action" of Events)
+ */
 ACTIONS = {
     32: 'fire', 
     37: 'left'

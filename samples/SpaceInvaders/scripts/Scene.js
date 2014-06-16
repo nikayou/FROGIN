@@ -1,8 +1,11 @@
-/**
- * Scene is a state of a game. Only the current state is handled by the loop. 
- * The game logic should be here. 
- */
 function Scene() {
+    /**
+     * Scene is a state of a game. Only the current state is handled by the 
+     * loop. The game logic should be here. 
+     *
+     * Members : 
+     * -
+     */
     this.init = function() {};
     this.initRenderer = function() {};
     this.update = function() { };
@@ -10,10 +13,17 @@ function Scene() {
     this.exit = function() {};
 }
 
-/**
- * Level is the main scene, where the player attacks enemies
- */
 function Level() {
+    /**
+     * Level is the main scene, where the player attacks enemies. 
+     *
+     * Prototype : Scene
+     * 
+     * Members : 
+     * background - outer space image
+     * player - player's ship
+     * canvas_* - different canvases to display
+     */
     this.init = function() {
 	this.initRenderer();
 	this.background = new Background();

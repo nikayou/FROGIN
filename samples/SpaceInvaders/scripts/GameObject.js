@@ -1,7 +1,12 @@
-/**
- * GameObjects are objects held by a scene. They can be updated and drawn
- */
 function GameObject() {
+    /**
+     * GameObject are objects held by the scene. They can be updated and 
+     * should be drawn.
+     *
+     * Members : 
+     * name - identifier to describe the object with ease
+     * graphics - thing to draw
+     */
     this.init = function(name) {
 	this.name = name;
     };
@@ -13,13 +18,18 @@ function GameObject() {
     this.exit = function() {};
 }
 
-/**
- * Background is the bottom layer. 
- * x, y : position on the canvas
- * speedX, speedY : movement
- * graphics : imageClip
- */
+
 function Background() {
+    /**
+     * Background is the bottom layer of levels. 
+     *
+     * Prototype : GameObject     
+     *
+     * Members : 
+     * x, y - position on the canvas
+     * speedX, speedY - movement
+     * graphics - imageClip
+     */
     this.init = function(name, x, y, sX, sY) {
 	this.name = name;
 	this.x = x;
@@ -27,7 +37,7 @@ function Background() {
 	this.speedX = sX;
 	this.speedY = sY;
 	this.graphics = new Sprite();
-	this.graphics.init(imageHolder.background, 0, 0, 800, 600);
+	this.graphics.init(imageHolder.background);
     };
     this.update = function() {
 	this.x += this.speedX;
@@ -46,11 +56,19 @@ Background.prototype = new GameObject();
 
 
 function Player() {
+    /**
+     * Player represents the player's ship.
+     *
+     * Prototype : GameObject
+     *
+     * Members : 
+     * -
+     */
     this.init = function(name, x, y) {
 	this.name = name;
 	this.x = x;
 	this.y = y;
-	this.graphics = new Sprite();
+	this.graphics = new Clip();
 	this.graphics.init(imageHolder.spritesheet, 128, 96, 32, 32);
     }
     this.update = function() {
