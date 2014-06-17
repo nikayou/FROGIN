@@ -62,9 +62,13 @@ function Level() {
 	    console.log("left : "+this);
 	    this.player.move(-10); 
 	};
-	left.init("left",   function(){this.player.move(-10);} );
+	left.init("left",   
+		  function(){this.player.move(-10);}, 
+		  TRIGGER_MAINTAIN);
 	var right = new Event();
-	right.init("right", function(){this.player.move( 10);} );
+	right.init("right", 
+		   function(){this.player.move( 10);},
+		   TRIGGER_MAINTAIN);
 	this.controller.registerEvent(event);
 	this.controller.registerEvent(left);
 	this.controller.registerEvent(right);

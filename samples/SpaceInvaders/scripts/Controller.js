@@ -72,7 +72,7 @@ function Controller() {
 	    // and push its command to the list
 	    //	    console.log("(D)was down ? "+localEvent.wasDown);
 	    if (  localEvent.trigger == TRIGGER_MAINTAIN ||
-		  (localEvent.trigger == TRIGGER_PRESSED 
+		  (localEvent.trigger == TRIGGER_PRESS 
 		   && (!localEvent.wasDown)) ) {
 		// adding the command 
 		// TODO : don't call commands immediately (?)
@@ -94,7 +94,7 @@ function Controller() {
 	    // if action has been registered, then update the event
 	    // and push its command to the list	    
 	    //	    console.log("(U)was down ? "+localEvent.wasDown);
-	    if (localEvent.trigger == TRIGGER_RELEASED) {
+	    if (localEvent.trigger == TRIGGER_RELEASE) {
 		// adding the command 
 		commands[commands.length] = localEvent.command;
 	    }
@@ -112,8 +112,8 @@ function Controller() {
 
 }
 
-TRIGGER_PRESSED = 0;
-TRIGGER_RELEASED = 1;
+TRIGGER_PRESS = 0;
+TRIGGER_RELEASE = 1;
 TRIGGER_MAINTAIN = 2;
 
 function Event() {
@@ -132,7 +132,7 @@ function Event() {
 
     this.action = "";
     this.command = function(){};
-    this.trigger = TRIGGER_PRESSED;
+    this.trigger = TRIGGER_PRESS;
     this.wasDown = false;
 
     this.init = function(action, command) {
@@ -143,8 +143,8 @@ function Event() {
     var init = function(action, command, trigger) {
 	this.action = action;
 	this.command = command;
-	if (trigger == TRIGGER_PRESSED ||
-	    trigger == TRIGGER_RELEASED ||
+	if (trigger == TRIGGER_PRESS ||
+	    trigger == TRIGGER_RELEASE ||
 	    trigger == TRIGGER_MAINTAIN) {
 	    this.trigger = trigger;
 	}
