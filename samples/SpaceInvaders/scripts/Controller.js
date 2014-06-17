@@ -17,10 +17,13 @@ function Controller() {
     // "commands" will receive commands to execute
     var commands = [];
 
+    //    this.scene = null;
+
     // TODO : consider using a key-value with a boolean as value, telling 
     // that the command should be executed. This would make only one structure.
 
-    this.init = function() {
+    this.init = function(scene) {
+	this.scene = scene;
     }
 
     // adds an event to the registered event
@@ -29,7 +32,7 @@ function Controller() {
     }
 
     // takes an action, and return the first event triggered by this action
-    getEventIndex = function(a) {
+    var getEventIndex = function(a) {
 	for (var i = 0; i < events.length; i++) {
 	    if (events[i].action == a){
 		return i;
@@ -43,11 +46,6 @@ function Controller() {
     }
 
     this.getCommands = function() {
-	var st = "all commands to perform : ";
-	for (c in commands) {
-	    st += c+"\n";
-	}
-//	console.log(st);
 	return commands;
     }
 
@@ -72,17 +70,18 @@ function Controller() {
 	if (localEvent != null) {
 	    // if action has been registered, then update the event
 	    // and push its command to the list
-//	    console.log("(D)was down ? "+localEvent.wasDown);
+	    //	    console.log("(D)was down ? "+localEvent.wasDown);
 	    if (  localEvent.trigger == TRIGGER_MAINTAIN ||
 		  (localEvent.trigger == TRIGGER_PRESSED 
 		   && (!localEvent.wasDown)) ) {
 		// adding the command 
 		// TODO : don't call commands immediately (?)
-/*		window.alert("adding command "+localEvent.command);
-		commands[commands.length] = localEvent.command;
-		};
-*/
-		localEvent.command.call();
+		/*		window.alert("adding command "+localEvent.command);
+				commands[commands.length] = localEvent.command;
+				};
+		*/
+		//console.log(this+" call "+localEvent.command+" with "+Controller.scene);
+		localEvent.command.call(this.scene);
 	    }
 	    localEvent.wasDown = true;
 	} else {
@@ -94,7 +93,7 @@ function Controller() {
 	if (localEvent != null) {
 	    // if action has been registered, then update the event
 	    // and push its command to the list	    
-//	    console.log("(U)was down ? "+localEvent.wasDown);
+	    //	    console.log("(U)was down ? "+localEvent.wasDown);
 	    if (localEvent.trigger == TRIGGER_RELEASED) {
 		// adding the command 
 		commands[commands.length] = localEvent.command;

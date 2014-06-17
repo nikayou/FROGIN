@@ -34,12 +34,40 @@ function Level() {
 	this.enemy.init("enemy", 80, 60);
 	// init controller
 	this.controller = new Controller();
-	window.addEventListener("keydown", this.controller.updateDown, false);
-	window.addEventListener("keyup", this.controller.updateUp, false);
-	var spaceAction = function(){console.log("PIOU");};
+	this.controller.init(this);
+	/*
+	 * The two following functions are necessary because otherwise, 
+	 * "controller.updateDown" is called with the Window as context.
+	 * This is bad, because the window doesn't have any "scene"
+	 */
+	var callDown = function(e) {
+	    var ctrl = this.controller;
+	    return function(){return ctrl.updateDown.bind(ctrl);};
+	};
+	var callUp = function(e) {
+	    var ctrl = this.controller;
+	    return function(){return ctrl.updateUp.bind(ctrl);};
+	};
+	/*
+	 * Now we are getting the redirected functions, called with
+	 * "Controller" as context. We could also want to use the Scene.
+	 */
+	document.addEventListener("keydown", callDown.apply(this)(), false);
+	document.addEventListener("keyup", callUp.apply(this)(), false);
+	var spaceAction = function(lvl){console.log("PIOU");};
 	var event = new Event();
 	event.init("space", spaceAction);
+	var left = new Event();
+	var moveLeft = function(){ 
+	    console.log("left : "+this);
+	    this.player.move(-10); 
+	};
+	left.init("left",   function(){this.player.move(-10);} );
+	var right = new Event();
+	right.init("right", function(){this.player.move( 10);} );
 	this.controller.registerEvent(event);
+	this.controller.registerEvent(left);
+	this.controller.registerEvent(right);
     };
     this.initRenderer = function() {
 	this.canvas_background = document.getElementById("canvas_background");
@@ -70,11 +98,11 @@ function Level() {
     };
     this.update = function() {
 	Level.prototype.update();
-//	console.log("getting commands");
+	//console.log("getting commands");
 	var commands = this.controller.getCommands();
 	for (c in commands ) {
-	    window.alert("command "+c);
-	    c.call(c);
+	    console.log("command "+c);
+	    c.call(c, this);
 	}
 	this.background.update();
 	this.player.update();

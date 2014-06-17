@@ -74,6 +74,9 @@ function Player() {
     this.update = function() {
 	Player.prototype.update();
     }
+    this.move = function(x) {
+	this.x += x;
+    }
 }
 Player.prototype = new GameObject();
 
