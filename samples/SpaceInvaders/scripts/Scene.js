@@ -58,10 +58,6 @@ function Level() {
 	var event = new Event();
 	event.init("space", spaceAction);
 	var left = new Event();
-	var moveLeft = function(){ 
-	    console.log("left : "+this);
-	    this.player.move(-10); 
-	};
 	left.init("left",   
 		  function(){this.player.move(-10);}, 
 		  TRIGGER_MAINTAIN);
