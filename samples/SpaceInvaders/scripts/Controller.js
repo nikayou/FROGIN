@@ -140,14 +140,14 @@ function Event() {
 	this.command = command;
     }
 
-    var init = function(action, command, trigger) {
+    this.init = function(action, command, trigger) {
 	this.action = action;
 	this.command = command;
 	if (trigger == TRIGGER_PRESS ||
 	    trigger == TRIGGER_RELEASE ||
 	    trigger == TRIGGER_MAINTAIN) {
 	    this.trigger = trigger;
-	}
+	} 
     }    
 
 }
