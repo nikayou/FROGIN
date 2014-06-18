@@ -97,10 +97,13 @@ function Player() {
 	Player.prototype.update();
     }
     this.move = function(x) {
+	// checking if ship would go out of bounds
+	if ( (this.x == 0 && x < 0) || 
+	     (this.x == 800-32 && x > 0))
+	    return;
 	this.x += x;	
 	document.getElementById("canvas_ally").style.left = this.x+'px';
 	document.getElementById("canvas_ally").style.top = this.y+'px';
-	console.log(this.x+"->"+document.getElementById("canvas_ally").style.left);
 	this.drawRelative();
     }
 }
