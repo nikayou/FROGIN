@@ -91,7 +91,6 @@ function Player() {
 			   32, 32);	
 	document.getElementById("canvas_ally").style.left = this.x+'px';
 	document.getElementById("canvas_ally").style.top = this.y+'px';
-	window.alert(document.getElementById("canvas_ally").style.left);
 	this.drawRelative();
     }
     this.update = function() {
