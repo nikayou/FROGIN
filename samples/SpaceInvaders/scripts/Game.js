@@ -54,8 +54,10 @@ function Game() {
      * Game is an encapsulation for general game instance infos. 
      * 
      * Members :
+     * deltaTime - time elapsed since last frame, in seconds
      * scene - current scene, being updated and rendered
      */
+    this.deltaTime = 0;
     this.init = function() {
 	this.scene = new Level();
 	this.scene.init();
@@ -63,7 +65,15 @@ function Game() {
     };
 
     this.update = function() {
+	updateDeltaTime();
 	this.scene.update();
+    };
+
+    var previous;
+    var updateDeltaTime = function() {
+	var now = new Date;
+	this.deltaTime = (now-previous)/1000;
+	previous = now;
     };
 
     this.draw = function() {
