@@ -4,3 +4,11 @@ canvas, #canvas, .canvas{
     top: 0px;
     left: 0px;
 }
+
+#canvas_ally{
+    z-index:1;
+}
+
+#canvas_background{
+    z-index:0;
+}

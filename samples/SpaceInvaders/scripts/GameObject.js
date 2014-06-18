@@ -12,7 +12,17 @@ function GameObject() {
     };
     this.update = function() {
     };
+    this.clear = function() {
+	if (this.width && this.height) {
+	    console.log("has width and height : "+this.width+"x"+this.height);
+	    this.context.clearRect(this.x, this.y, this.width, this.height);
+	}else{	    
+	    console.log("clearing all canvas");
+	    this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+	}
+    };
     this.draw = function() {
+	this.clear();
 	this.graphics.draw(this.context, this.x, this.y);
     };
     this.exit = function() {};
@@ -68,14 +78,27 @@ function Player() {
 	this.name = name;
 	this.x = x;
 	this.y = y;
+//	this.width = 32;
+//	this.height = 32;
+	console.log(document.getElementById("canvas_ally"));
 	this.graphics = new Clip();
-	this.graphics.init(imageHolder.spritesheet, 128, 96, 32, 32);
+	this.graphics.init(imageHolder.spritesheet, 
+			   128, 96, 
+			   32, 32);	
+	document.getElementById("canvas_ally").style.left = this.x+'px';
+	document.getElementById("canvas_ally").style.top = this.y+'px';
+	window.alert(document.getElementById("canvas_ally").style.left);
+	this.draw();
     }
     this.update = function() {
 	Player.prototype.update();
     }
     this.move = function(x) {
 	this.x += x;
+	console.log(document.getElementById("canvas_ally"));
+	document.getElementById("canvas_ally").style.left = this.x+'px';
+	document.getElementById("canvas_ally").style.top = this.y+'px';
+	this.draw();
     }
 }
 Player.prototype = new GameObject();
