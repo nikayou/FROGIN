@@ -29,8 +29,10 @@ function Level() {
      * Members : 
      * background - outer space image
      * player - player's ship
+     * bullets - array containing the bullets
      * canvas_* - different canvases to display
      */
+    this.bullets = [];
     this.init = function() {
 	this.initRenderer();
 	this.background = new Background();
@@ -64,10 +66,10 @@ function Level() {
 	document.addEventListener("keydown", callDown.apply(this)(), false);
 	document.addEventListener("keyup", callUp.apply(this)(), false);
 	var spaceAction = function(){ 
-	    this.spawnBullet(this.player.x, this.player.y, -A_BULLET_SPEED); 
+	    this.spawnBullet(this.player.x+15, this.player.y-9, A_BULLET_SPEED);
 	};
 	var event = new Event();
-	event.init("space", spaceAction);
+	event.init("space", spaceAction, TRIGGER_MAINTAIN);
 	var left = new Event();
 	left.init("left",   
 		  function(){this.player.move(-A_SPEED);}, 
@@ -105,6 +107,9 @@ function Level() {
 	    Player.prototype.canvasHeight = this.canvas_ally.height;
 	    // bullets
 	    this.context_bullets = this.canvas_bullets.getContext("2d");
+	    Bullet.prototype.context = this.context_bullets;
+	    Bullet.prototype.canvasWidth = this.canvas_bullets.width;
+	    Bullet.prototype.canvasHeight = this.canvas_bullets.height;
 	}	
     };
     this.update = function() {
@@ -117,6 +122,9 @@ function Level() {
 	}
 	this.background.update();
 	this.player.update();
+	for (b in this.bullets) {
+	    this.bullets[b].update();
+	}
 	this.controller.cleanCommands();
     };
     this.draw = function() {
@@ -129,5 +137,15 @@ function Level() {
 	this.player.exit();
 	this.background.exit();
     };
+
+    /**
+     * Spawns a bullet at 'x','y' moving vertically at 'v'
+     */
+    this.spawnBullet = function(x, y, v) {
+	var b = new Bullet();
+	b.init(x, y, v);
+	this.bullets[this.bullets.length] = b;
+    };
+
 }
 Level.prototype = new Scene();

@@ -128,3 +128,39 @@ function Enemy() {
     }
 }
 Enemy.prototype = new GameObject();
+
+
+function Bullet() {
+    /**
+     * Bullet represents a bullet : ally or enemy
+     *
+     * Prototype : GameObject
+     *
+     * Members :
+     * speed - vertical speed. Allies : up, enemies : down
+     */
+    this.init = function(x, y, s) {
+	this.name = "bullet";
+	this.x = x;
+	this.y = y;
+	this.speed = s;
+	this.graphics = new Clip();
+	if (s > 0) {
+	    // speed is >0 = heading to the bottom = enemy bullet
+	    this.graphics.init(imageHolder.spritesheet,
+			       175, 16,
+			       2, 8);
+	} else {
+	    // speed is <0 = heading to the top = ally bullet
+	    this.graphics.init(imageHolder.spritesheet, 
+			      175, 0,
+			      2, 8);
+	}
+	this.draw();
+    }
+    this.update = function() {
+	this.y += this.speed;
+	this.draw();
+    }
+}
+Bullet.prototype = new GameObject();
