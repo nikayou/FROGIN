@@ -13,6 +13,13 @@ function Scene() {
     this.exit = function() {};
 }
 
+// ally's bullets speed
+A_BULLET_SPEED = -32;
+// enemies' bullets speed
+E_BULLET_SPEED = 32;
+// ally's speed
+A_SPEED = 16;
+
 function Level() {
     /**
      * Level is the main scene, where the player attacks enemies. 
@@ -56,16 +63,18 @@ function Level() {
 	 */
 	document.addEventListener("keydown", callDown.apply(this)(), false);
 	document.addEventListener("keyup", callUp.apply(this)(), false);
-	var spaceAction = function(lvl){console.log("PIOU");};
+	var spaceAction = function(){ 
+	    this.spawnBullet(this.player.x, this.player.y, -A_BULLET_SPEED); 
+	};
 	var event = new Event();
 	event.init("space", spaceAction);
 	var left = new Event();
 	left.init("left",   
-		  function(){this.player.move(-10);}, 
+		  function(){this.player.move(-A_SPEED);}, 
 		  TRIGGER_MAINTAIN);
 	var right = new Event();
 	right.init("right", 
-		   function(){this.player.move( 10);},
+		   function(){this.player.move(A_SPEED);},
 		   TRIGGER_MAINTAIN);
 	this.controller.registerEvent(event);
 	this.controller.registerEvent(left);
