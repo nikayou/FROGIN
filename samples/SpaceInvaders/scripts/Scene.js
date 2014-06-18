@@ -28,6 +28,7 @@ function Level() {
 	this.initRenderer();
 	this.background = new Background();
 	this.background.init("bg", 0, 0, 0, 0);
+	this.background.draw();
 	this.player = new Player();
 //	this.player.init("player", 400, 560);
 	this.player.init("player", 40, 0);
@@ -110,7 +111,8 @@ function Level() {
 	this.controller.cleanCommands();
     };
     this.draw = function() {
-	this.background.draw();
+//	this.background.draw();
+//	this.player.context.fillRect(0,0,64,64);
 //	this.player.draw();
 	this.enemy.draw();
     };

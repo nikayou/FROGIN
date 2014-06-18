@@ -25,6 +25,10 @@ function GameObject() {
 	this.clear();
 	this.graphics.draw(this.context, this.x, this.y);
     };
+    this.drawRelative = function() {
+	this.clear();
+	this.graphics.draw(this.context, 0, 0);
+    };
     this.exit = function() {};
 }
 
@@ -88,17 +92,17 @@ function Player() {
 	document.getElementById("canvas_ally").style.left = this.x+'px';
 	document.getElementById("canvas_ally").style.top = this.y+'px';
 	window.alert(document.getElementById("canvas_ally").style.left);
-	this.draw();
+	this.drawRelative();
     }
     this.update = function() {
 	Player.prototype.update();
     }
     this.move = function(x) {
-	this.x += x;
-	console.log(document.getElementById("canvas_ally"));
+	this.x += x;	
 	document.getElementById("canvas_ally").style.left = this.x+'px';
 	document.getElementById("canvas_ally").style.top = this.y+'px';
-	this.draw();
+	console.log(this.x+"->"+document.getElementById("canvas_ally").style.left);
+	this.drawRelative();
     }
 }
 Player.prototype = new GameObject();
