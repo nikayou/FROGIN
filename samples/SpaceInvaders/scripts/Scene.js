@@ -30,8 +30,8 @@ function Level() {
 	this.background.init("bg", 0, 0, 0, 0);
 	this.background.draw();
 	this.player = new Player();
-//	this.player.init("player", 400, 560);
-	this.player.init("player", 40, 0);
+	this.player.init("player", 400, 560);
+//	this.player.init("player", 40, 0);
 	this.enemy = new Enemy();
 	this.enemy.init("enemy", 80, 60);
 	// init controller
