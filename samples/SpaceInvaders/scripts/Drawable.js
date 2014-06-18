@@ -5,5 +5,5 @@ function Drawable() {
      * Members : 
      * -
      */
-    this.draw = function(context) {}
+    this.draw = function() {}
 }
