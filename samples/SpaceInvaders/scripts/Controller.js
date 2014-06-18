@@ -22,6 +22,8 @@ function Controller() {
     // TODO : consider using a key-value with a boolean as value, telling 
     // that the command should be executed. This would make only one structure.
 
+    // TODO : check if "preventDefault" is necessary for events
+
     this.init = function(scene) {
 	this.scene = scene;
     }
