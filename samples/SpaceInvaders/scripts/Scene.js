@@ -123,7 +123,7 @@ function Level() {
 //	this.background.draw();
 //	this.player.context.fillRect(0,0,64,64);
 //	this.player.draw();
-	this.enemy.draw();
+//	this.enemy.draw();
     };
     this.exit = function() {
 	this.player.exit();
