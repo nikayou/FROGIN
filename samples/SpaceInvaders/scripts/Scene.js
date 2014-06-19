@@ -69,18 +69,16 @@ function Level() {
 	    this.spawnBullet(this.player.x+15, this.player.y-9, A_BULLET_SPEED);
 	};
 	var event = new Event();
-	event.init("space", spaceAction, TRIGGER_MAINTAIN);
+	event.init(spaceAction, TRIGGER_MAINTAIN);
 	var left = new Event();
-	left.init("left",   
-		  function(){this.player.move(-A_SPEED);}, 
+	left.init(function(){this.player.move(-A_SPEED);}, 
 		  TRIGGER_MAINTAIN);
 	var right = new Event();
-	right.init("right", 
-		   function(){this.player.move(A_SPEED);},
+	right.init(function(){this.player.move(A_SPEED);},
 		   TRIGGER_MAINTAIN);
-	this.controller.registerEvent(event);
-	this.controller.registerEvent(left);
-	this.controller.registerEvent(right);
+	this.controller.registerEvent("space", event);
+	this.controller.registerEvent("left", left);
+	this.controller.registerEvent("right", right);
     };
     this.initRenderer = function() {
 	this.canvas_background = document.getElementById("canvas_background");
@@ -114,9 +112,7 @@ function Level() {
     };
     this.update = function() {
 	Level.prototype.update();
-//	console.log("getting commands");
 	var commands = this.controller.getCommands();
-//	console.log("got "+commands.length+" commands");
 	for (var i = 0; i < commands.length; i++) {
 	    console.log("command "+commands[i]);
 	    commands[i].call(this);
@@ -126,7 +122,6 @@ function Level() {
 	for (b in this.bullets) {
 	    this.bullets[b].update();
 	}
-	this.controller.cleanCommands();
     };
     this.draw = function() {
 //	this.background.draw();

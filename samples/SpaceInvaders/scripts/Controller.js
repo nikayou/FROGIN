@@ -10,17 +10,20 @@ function Controller() {
      * Members : 
      * events - all events registered to the Controller (IN).
      * command - all commands to be executed (OUT). 
+     *
+     * How it works : 
+     * When HTML triggers a 'onkeydown' event, 'updateDown' is called. 
+     * This function first checks if the code matches a valid action (defined 
+     * in Actions.js). If it does, the registered event is retrieved and set 
+     * as "performed" (that means, its related command should be called). 
+     * When "getCommands" is called, it returns a list of all commands that 
+     * should be performed, based on this attribute. 
      */
 
-    // "events" keep registered inputs, those we are interested in
+    // "events" keep a map of <string->Event>, those we are interested in
     var events = {};
     // "commands" will receive commands to execute
     var commands = [];
-
-    //    this.scene = null;
-
-    // TODO : consider using a key-value with a boolean as value, telling 
-    // that the command should be executed. This would make only one structure.
 
     // TODO : check if "preventDefault" is necessary for events
 
@@ -30,46 +33,18 @@ function Controller() {
     }
 
     // adds an event to the registered event
-    this.registerEvent = function(e) {	
-//	var action = e.action;
-	events[e.action] = e;
-	console.log("registered "+e+"->"+e.action+"("+events[e]);
-	console.log("events : "+events[e]);	
-	console.log("events["+e+"] -> "+events[e]);
-	console.log(events);
+    this.registerEvent = function(a, e) {	
+	events[a] = e;
     }
 
     // takes an action, and return the first event triggered by this action
     var getEvent = function(a) {
-	showEvents();
 	for (e in events) {
 	    if (e == a) {
 		return events[e];
 	    }
 	}
 	return null;
-/*
-	for (e in events) {
-	    console.log("----------*");
-	    console.log("event : "+e);
-	    if (e.action == a){
-		console.log("found");
-		console.log("*----------");
-		return events;
-	    }
-	}
-	console.log(a+" not found");
-	console.log("----------");
-	return null;
-*/
-    }
-
-    var showEvents = function() {
-	console.log("<--EVENTS--");
-	for (e in events){
-	    console.log(e+"->"+events[e]);
-	}
-	console.log("--EVENTS-->");
     }
 
     this.getEvents = function() {
@@ -78,9 +53,7 @@ function Controller() {
 
     this.getCommands = function() {
 	commands = [];
-//	console.log("checking in "+events.length+" events");
 	for (e in events) {
-//	    console.log("event ? " + events[e]);
 	    if (events[e].isPerformed)
 		commands[commands.length] = events[e].command;
 	}
@@ -93,7 +66,6 @@ function Controller() {
     var getAction = function(e) {
 	var code = (e.keyCode) ? e.keyCode : e.charCode;
 	var action = ACTIONS[code];
-	console.log("getAction : "+action);
 	if (!action || action=="") {
 	    return null;
 	}
@@ -102,13 +74,10 @@ function Controller() {
 
     this.updateDown = function(e) {
 	var event = getEvent( getAction(e) );
-	console.log("event : "+event);
 	if (event != null) {
-	    console.log("registered event");
 	    if (  event.trigger == TRIGGER_MAINTAIN ||
 		  (event.trigger == TRIGGER_PRESS 
 		   && (!event.wasDown)) ) {
-		console.log("event "+event.action+" is triggered ->"+event.command);
 		event.isPerformed = true;
 	    } else {
 		event.isPerformed = false;
@@ -129,12 +98,8 @@ function Controller() {
 	}
     }
 
-    this.cleanCommands = function() {
-//	commands = [];
-    }
-
     this.cleanEvents = function() {
-//	events = [];
+	events = [];
     }
 
 }
@@ -150,25 +115,20 @@ function Event() {
      * pressed / released, if the command has to be executed. 
      *
      * Members : 
-     * action - name of the action (in file "Actions.js")
      * command - function to execute when the action occurs
      * trigger - when the command is executed : at press, release, or holding
      * wasDown - to avoid repeated PRESSED events
      */
 
-
-    this.action = "";
     this.command = function(){};
     this.trigger = TRIGGER_PRESS;
     this.wasDown = false;
 
-    this.init = function(action, command) {
-	this.action = action;
+    this.init = function(command) {
 	this.command = command;
     }
 
-    this.init = function(action, command, trigger) {
-	this.action = action;
+    this.init = function(command, trigger) {
 	this.command = command;
 	if (trigger == TRIGGER_PRESS ||
 	    trigger == TRIGGER_RELEASE ||
