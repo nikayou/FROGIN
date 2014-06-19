@@ -11,12 +11,11 @@
 
 var game = new Game();
 
-
-function init() {
+function startGame(s) {
     /**
      * Initializes the game
      */
-    game.init();
+    game.init(s);
 }
 
 
@@ -34,7 +33,6 @@ window.requestAnimFrame = (function(){
 	window.msRequestAnimationFrame     || 
 	function(callback, 
 		 element){
-	    alert("request");
 	    window.setTimeout(callback, 1000 / 60); // handle FPS
 	};
 })();
@@ -58,8 +56,8 @@ function Game() {
      * Members :
      * scene - current scene, being updated and rendered
      */
-    this.init = function() {
-	this.scene = new Level();
+    this.init = function(s) {
+	this.scene = s;
 	this.scene.init();
 	requestAnimFrame(loop);
     };

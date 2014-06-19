@@ -7,19 +7,28 @@
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css" />
   </head>
 
-  <body onload="init()">
+  <body onload="start()">
     <div id="canvases">
       <canvas id="canvas_background" width="800" height="600"></canvas>
       <canvas id="canvas_enemies" width="800" height="600"></canvas>
       <canvas id="canvas_ally" width="32" height="32"></canvas>
       <canvas id="canvas_bullets" width="800" height="600"></canvas>
-      <script src="scripts/Drawable.js"></script>
-      <script src="scripts/Sprite.js"></script>
-      <script src="scripts/Keys.js"></script>
-      <script src="scripts/Controller.js"></script>
-      <script src="scripts/GameObject.js"></script>
-      <script src="scripts/Scene.js"></script>
-      <script src="scripts/Game.js"></script>
+      <!-- include framework -->
+      <script src="../../src/scripts/Drawable.js"></script>
+      <script src="../../src/scripts/Sprite.js"></script>
+      <script src="../../src/scripts/Keys.js"></script>
+      <script src="../../src/scripts/Controller.js"></script>
+      <script src="../../src/scripts/GameObject.js"></script>
+      <script src="../../src/scripts/Scene.js"></script>
+      <script src="../../src/scripts/Game.js"></script>
+      <!-- include game-specific files -->
+      <script src="scripts/Background.js"></script>
+      <script src="scripts/Bullet.js"></script>
+      <script src="scripts/Enemy.js"></script>
+      <script src="scripts/Player.js"></script>
+      <script src="scripts/Level.js"></script>
+      <script src="scripts/SpaceInvaders.js"></script>
+      <!-- -->
     </div>
   </body>
 
