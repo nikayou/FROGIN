@@ -14,7 +14,7 @@ function Controller() {
      * How it works : 
      * When HTML triggers a 'onkeydown' event, 'updateDown' is called. 
      * This function first checks if the code matches a valid action (defined 
-     * in Actions.js). If it does, the registered event is retrieved and set 
+     * in Keys.js). If it does, the registered event is retrieved and set 
      * as "performed" (that means, its related command should be called). 
      * When "getCommands" is called, it returns a list of all commands that 
      * should be performed, based on this attribute. 
@@ -61,11 +61,11 @@ function Controller() {
     }
 
     /**
-     * Returns action associated to 'e' code (see file Actions.js)
+     * Returns action associated to 'e' code (see file Keys.js)
      */
     var getAction = function(e) {
 	var code = (e.keyCode) ? e.keyCode : e.charCode;
-	var action = ACTIONS[code];
+	var action = KEYS[code];
 	if (!action || action=="") {
 	    return null;
 	}
