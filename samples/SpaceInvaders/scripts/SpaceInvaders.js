@@ -1,5 +1,4 @@
 var start = function() {
-    alert("init");
     game.init(new Level());
 }
 
