@@ -75,9 +75,9 @@ function Level() {
 	var right = new Event();
 	right.init(function(){this.player.move(A_SPEED);},
 		   TRIGGER_MAINTAIN);
-	this.controller.registerEvent("space", event);
-	this.controller.registerEvent("left", left);
-	this.controller.registerEvent("right", right);
+	this.controller.register("space", event);
+	this.controller.register("left", left);
+	this.controller.register("right", right);
     };
     this.initRenderer = function() {
 	this.canvas_background = document.getElementById("canvas_background");

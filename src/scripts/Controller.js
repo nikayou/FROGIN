@@ -8,6 +8,7 @@ function Controller() {
      * and each one should be executed. 
      *
      * Members : 
+     * inputMaps - binding of events
      * events - all events registered to the Controller (IN).
      * command - all commands to be executed (OUT). 
      *
@@ -24,12 +25,15 @@ function Controller() {
     var events = {};
     // "commands" will receive commands to execute
     var commands = [];
+    this.inputMaps = [];
 
     // TODO : check if "preventDefault" is necessary for events
 
     this.init = function(scene) {
 	this.scene = scene;
 	events = new Object();
+	this.inputMaps[0] = new InputMap();
+	this.inputMaps[0].init(); 
     }
 
     /**
@@ -37,31 +41,27 @@ function Controller() {
      * When the key matching the action is involved in an input, 
      * the event's command will be triggered. 
      */
-    this.registerEvent = function(a, e) {	
-	events[a] = e;
+    this.register = function(a, e) {	
+	this.registerOn(a, e, this.inputMaps[0]);
     }
 
     /**
-     * Takes an action, and returns the event triggered by this action
+     * Binds an action (string) to an Event (e) on the specified inputMap. 
+     * When the key matching the action is involved in an input, 
+     * the event's command will be triggered. 
      */
-    var getEvent = function(a) {
-	for (e in events) {
-	    if (e == a) {
-		return events[e];
-	    }
-	}
-	return null;
+    this.registerOn = function(a, e, i) {
+	i.register(a, e);
     }
 
     /**
-     * Computes and returns all commands to perform. 
+     * Computes and returns all commands to perform, obtained by inputMaps. 
      * Each one should be called ( command.call() );
      */
     this.getCommands = function() {
 	commands = [];
-	for (e in events) {
-	    if (events[e].isPerformed)
-		commands[commands.length] = events[e].command;
+	for (m in this.inputMaps) {
+	    commands = commands.concat(this.inputMaps[m].getCommands());
 	}
 	return commands;
     }
@@ -79,36 +79,22 @@ function Controller() {
     }
 
     /**
-     * Retrieves the event bound to the matching key, and marks it as 
-     * "performed" if the trigger matches. 
+     * Retrieves the event bound to the matching key, and tells to inputMaps to update
      */
     this.updateDown = function(e) {
-	var event = getEvent( getKeyName(e) );
-	if (event != null) {
-	    if (  event.trigger == TRIGGER_MAINTAIN ||
-		  (event.trigger == TRIGGER_PRESS 
-		   && (!event.wasDown)) ) {
-		event.isPerformed = true;
-	    } else {
-		event.isPerformed = false;
-	    }
-	    event.wasDown = true;
+	var action = getKeyName(e);
+	for (m in this.inputMaps) {
+	    this.inputMaps[m].updateDown(action);
 	}
     }
 
     /**
-     * Retrieves the event bound to the matching key, and marks it as 
-     * "performed" if the trigger matches. 
+     * Retrieves the event bound to the matching key, and tells to inputMaps to update
      */
     this.updateUp = function(e) {
-	var event = getEvent( getKeyName(e) );
-	if (event != null) {
-	     if (event.trigger == TRIGGER_RELEASE) {
-		 event.isPerformed = true;
-	     }else{
-		 event.isPerformed = false;
-	     }
-	    event.wasDown = false;
+	var action = getKeyName(e);
+	for (m in this.inputMaps) {
+	    this.inputMaps[m].updateUp(action);
 	}
     }
 
