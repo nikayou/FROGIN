@@ -13,7 +13,7 @@ function Controller() {
      */
 
     // "events" keep registered inputs, those we are interested in
-    var events = [];
+    var events = {};
     // "commands" will receive commands to execute
     var commands = [];
 
@@ -31,21 +31,45 @@ function Controller() {
 
     // adds an event to the registered event
     this.registerEvent = function(e) {	
-	var action = e.action;
-	events[action] = false;
-	commands[action] = e.command;
-	console.log("registered "+action+"->"+events+"("+events[action]);
-	console.log("events : "+events[action]);	
-	console.log("events["+action+"] -> "+events[action]);
+//	var action = e.action;
+	events[e.action] = e;
+	console.log("registered "+e+"->"+e.action+"("+events[e]);
+	console.log("events : "+events[e]);	
+	console.log("events["+e+"] -> "+events[e]);
+	console.log(events);
     }
 
     // takes an action, and return the first event triggered by this action
-    var getEventIndex = function(a) {
+    var getEvent = function(a) {
+	showEvents();
 	for (e in events) {
-	    if (e.action == a)
-		return e;
+	    if (e == a) {
+		return events[e];
+	    }
 	}
 	return null;
+/*
+	for (e in events) {
+	    console.log("----------*");
+	    console.log("event : "+e);
+	    if (e.action == a){
+		console.log("found");
+		console.log("*----------");
+		return events;
+	    }
+	}
+	console.log(a+" not found");
+	console.log("----------");
+	return null;
+*/
+    }
+
+    var showEvents = function() {
+	console.log("<--EVENTS--");
+	for (e in events){
+	    console.log(e+"->"+events[e]);
+	}
+	console.log("--EVENTS-->");
     }
 
     this.getEvents = function() {
@@ -53,46 +77,23 @@ function Controller() {
     }
 
     this.getCommands = function() {
-	var todoCommands = [];
+	commands = [];
 //	console.log("checking in "+events.length+" events");
 	for (e in events) {
 //	    console.log("event ? " + events[e]);
-	    if (events[e])
-		todoCommands[todoCommands.length] = commands[e];
+	    if (events[e].isPerformed)
+		commands[commands.length] = events[e].command;
 	}
-	return todoCommands;
+	return commands;
     }
 
-    var getEventIfRegistered = function(e) {
-	// Firefox and opera use charCode instead of keyCode to
-	// return which key was pressed.
-	var code = (e.keyCode) ? e.keyCode : e.charCode;
-	// getting the action string associated with the key code
-	var action = ACTIONS[code];
-	if (!action) {
-	    return null;
-	}
-	// checking if the action has been registered
-/*	var eventIndex = getEventIndex(action);
-	if (eventIndex) {
-	    return events[eventIndex];
-	} else {
-	    return null;
-	}
-	return null;*/
-	return getEventIndex(action);
-    };
-
-    var isRegistered = function(action) {
-	// getting the action string associated with the key code
-	return (events.action);
-    }
-
+    /**
+     * Returns action associated to 'e' code (see file Actions.js)
+     */
     var getAction = function(e) {
 	var code = (e.keyCode) ? e.keyCode : e.charCode;
 	var action = ACTIONS[code];
-	console.log(events);
-	console.log("events["+action+"] -> "+events[action]);
+	console.log("getAction : "+action);
 	if (!action || action=="") {
 	    return null;
 	}
@@ -100,16 +101,32 @@ function Controller() {
     }
 
     this.updateDown = function(e) {
-	var action = getAction(e);
-//	if (isRegistered(action)) {
-	    console.log("event != null : "+e);
-	    events[action] = true;
-//	}
+	var event = getEvent( getAction(e) );
+	console.log("event : "+event);
+	if (event != null) {
+	    console.log("registered event");
+	    if (  event.trigger == TRIGGER_MAINTAIN ||
+		  (event.trigger == TRIGGER_PRESS 
+		   && (!event.wasDown)) ) {
+		console.log("event "+event.action+" is triggered ->"+event.command);
+		event.isPerformed = true;
+	    } else {
+		event.isPerformed = false;
+	    }
+	    event.wasDown = true;
+	}
     }
 
     this.updateUp = function(e) {
-	var action = getAction(e);
-	events[action] = false;
+	var event = getEvent( getAction(e) );
+	if (event != null) {
+	     if (event.trigger == TRIGGER_RELEASE) {
+		 event.isPerformed = true;
+	     }else{
+		 event.isPerformed = false;
+	     }
+	    event.wasDown = false;
+	}
     }
 
     this.cleanCommands = function() {
