@@ -99,13 +99,19 @@ function Player() {
     }
     this.move = function(x) {
 	// checking if ship would go out of bounds
-	if ( (this.x == 0 && x < 0) || 
-	     (this.x == 800-32 && x > 0))
-	    return;
-	this.x += x;	
-	document.getElementById("canvas_ally").style.left = this.x+'px';
-	document.getElementById("canvas_ally").style.top = this.y+'px';
-	this.drawRelative();
+	var amount = x * deltaTime;
+	var dest = this.x + amount;
+	if (dest <= 0) {
+	    dest = 0;
+	} else if (dest >= 800-32){
+	    dest = 800 - 32;
+	}
+	if (dest != this.x) {
+	    this.x = dest;
+	    document.getElementById("canvas_ally").style.left = this.x+'px';
+	    document.getElementById("canvas_ally").style.top = this.y+'px';
+	    this.drawRelative();
+	}
     }
 }
 Player.prototype = new GameObject();
@@ -167,7 +173,7 @@ function Bullet() {
     this.update = function() {
 	console.log("update bullet");
 	if (this.active) {
-	    this.y += this.speed;
+	    this.y += this.speed * deltaTime;
 	    if (this.y > 600 || this.y < -8)
 		this.active = false;
 	    this.draw();

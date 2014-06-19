@@ -14,11 +14,11 @@ function Scene() {
 }
 
 // ally's bullets speed
-A_BULLET_SPEED = -32;
+A_BULLET_SPEED = -400;
 // enemies' bullets speed
-E_BULLET_SPEED = 32;
+E_BULLET_SPEED = 400;
 // ally's speed
-A_SPEED = 16;
+A_SPEED = 320;
 
 function Level() {
     /**

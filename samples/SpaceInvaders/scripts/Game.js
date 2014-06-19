@@ -48,6 +48,7 @@ function loop() {
     requestAnimFrame(loop);
 }
 
+var deltaTime = 0;
 
 function Game() {
     /**
@@ -57,7 +58,7 @@ function Game() {
      * deltaTime - time elapsed since last frame, in seconds
      * scene - current scene, being updated and rendered
      */
-    this.deltaTime = 0;
+    deltaTime = 0;
     this.init = function() {
 	this.scene = new Level();
 	this.scene.init();
@@ -72,7 +73,7 @@ function Game() {
     var previous;
     var updateDeltaTime = function() {
 	var now = new Date;
-	this.deltaTime = (now-previous)/1000;
+	deltaTime = (now-previous)/1000;
 	previous = now;
     };
 
