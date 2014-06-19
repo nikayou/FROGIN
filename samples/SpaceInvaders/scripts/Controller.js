@@ -26,21 +26,26 @@ function Controller() {
 
     this.init = function(scene) {
 	this.scene = scene;
+	events = new Object();
     }
 
     // adds an event to the registered event
     this.registerEvent = function(e) {	
-	events[events.length] = e;
+	var action = e.action;
+	events[action] = false;
+	commands[action] = e.command;
+	console.log("registered "+action+"->"+events+"("+events[action]);
+	console.log("events : "+events[action]);	
+	console.log("events["+action+"] -> "+events[action]);
     }
 
     // takes an action, and return the first event triggered by this action
     var getEventIndex = function(a) {
-	for (var i = 0; i < events.length; i++) {
-	    if (events[i].action == a){
-		return i;
-	    }
+	for (e in events) {
+	    if (e.action == a)
+		return e;
 	}
-	return -1;
+	return null;
     }
 
     this.getEvents = function() {
@@ -48,7 +53,14 @@ function Controller() {
     }
 
     this.getCommands = function() {
-	return commands;
+	var todoCommands = [];
+//	console.log("checking in "+events.length+" events");
+	for (e in events) {
+//	    console.log("event ? " + events[e]);
+	    if (events[e])
+		todoCommands[todoCommands.length] = commands[e];
+	}
+	return todoCommands;
     }
 
     var getEventIfRegistered = function(e) {
@@ -61,58 +73,51 @@ function Controller() {
 	    return null;
 	}
 	// checking if the action has been registered
-	var eventIndex = getEventIndex(action);
-	if (eventIndex > -1) {
+/*	var eventIndex = getEventIndex(action);
+	if (eventIndex) {
 	    return events[eventIndex];
 	} else {
 	    return null;
 	}
-	return null;
+	return null;*/
+	return getEventIndex(action);
     };
 
-    this.updateDown = function(e) {
-	var localEvent = getEventIfRegistered(e);
-	if (localEvent != null) {
-	    // if action has been registered, then update the event
-	    // and push its command to the list
-	    //	    console.log("(D)was down ? "+localEvent.wasDown);
-	    if (  localEvent.trigger == TRIGGER_MAINTAIN ||
-		  (localEvent.trigger == TRIGGER_PRESS 
-		   && (!localEvent.wasDown)) ) {
-		// adding the command 
-		// TODO : don't call commands immediately (?)
-		/*		window.alert("adding command "+localEvent.command);
-				commands[commands.length] = localEvent.command;
-				};
-		*/
-		//console.log(this+" call "+localEvent.command+" with "+Controller.scene);
-		localEvent.command.call(this.scene);
-	    }
-	    localEvent.wasDown = true;
-	} else {
+    var isRegistered = function(action) {
+	// getting the action string associated with the key code
+	return (events.action);
+    }
+
+    var getAction = function(e) {
+	var code = (e.keyCode) ? e.keyCode : e.charCode;
+	var action = ACTIONS[code];
+	console.log(events);
+	console.log("events["+action+"] -> "+events[action]);
+	if (!action || action=="") {
+	    return null;
 	}
+	return action;
+    }
+
+    this.updateDown = function(e) {
+	var action = getAction(e);
+//	if (isRegistered(action)) {
+	    console.log("event != null : "+e);
+	    events[action] = true;
+//	}
     }
 
     this.updateUp = function(e) {
-	var localEvent = getEventIfRegistered(e);
-	if (localEvent != null) {
-	    // if action has been registered, then update the event
-	    // and push its command to the list	    
-	    //	    console.log("(U)was down ? "+localEvent.wasDown);
-	    if (localEvent.trigger == TRIGGER_RELEASE) {
-		// adding the command 
-		commands[commands.length] = localEvent.command;
-	    }
-	    localEvent.wasDown = false;
-	}
+	var action = getAction(e);
+	events[action] = false;
     }
 
     this.cleanCommands = function() {
-	commands = [];
+//	commands = [];
     }
 
     this.cleanEvents = function() {
-	events = [];
+//	events = [];
     }
 
 }

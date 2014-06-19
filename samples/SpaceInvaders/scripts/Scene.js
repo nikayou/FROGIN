@@ -114,11 +114,12 @@ function Level() {
     };
     this.update = function() {
 	Level.prototype.update();
-	//console.log("getting commands");
+//	console.log("getting commands");
 	var commands = this.controller.getCommands();
-	for (c in commands ) {
-	    console.log("command "+c);
-	    c.call(c, this);
+//	console.log("got "+commands.length+" commands");
+	for (var i = 0; i < commands.length; i++) {
+	    console.log("command "+commands[i]);
+	    commands[i].call(this);
 	}
 	this.background.update();
 	this.player.update();
