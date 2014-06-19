@@ -57,6 +57,9 @@ function Controller() {
 	var code = (e.keyCode) ? e.keyCode : e.charCode;
 	// getting the action string associated with the key code
 	var action = ACTIONS[code];
+	if (!action) {
+	    return null;
+	}
 	// checking if the action has been registered
 	var eventIndex = getEventIndex(action);
 	if (eventIndex > -1) {

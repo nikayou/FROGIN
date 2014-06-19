@@ -144,7 +144,12 @@ function Level() {
     this.spawnBullet = function(x, y, v) {
 	var b = new Bullet();
 	b.init(x, y, v);
-	this.bullets[this.bullets.length] = b;
+	if (this.bullets[this.bullets.length-1] && 
+	    this.bullets[this.bullets.length-1].active) {
+	    this.bullets[this.bullets.length] = b;
+	} else {	    
+	    this.bullets[this.bullets.length-1] = b;
+	}
     };
 
 }

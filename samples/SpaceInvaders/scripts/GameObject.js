@@ -22,6 +22,7 @@ function GameObject() {
 	}
     };
     this.draw = function() {
+	console.log("draw");
 	this.clear();
 	this.graphics.draw(this.context, this.x, this.y);
     };
@@ -140,6 +141,7 @@ function Bullet() {
      * Prototype : GameObject
      *
      * Members :
+     * active - false when bullet should be destroyed
      * speed - vertical speed. Allies : up, enemies : down
      */
     this.init = function(x, y, s) {
@@ -147,6 +149,7 @@ function Bullet() {
 	this.x = x;
 	this.y = y;
 	this.speed = s;
+	this.active = true;
 	this.graphics = new Clip();
 	if (s > 0) {
 	    // speed is >0 = heading to the bottom = enemy bullet
@@ -162,8 +165,13 @@ function Bullet() {
 	this.draw();
     }
     this.update = function() {
-	this.y += this.speed;
-	this.draw();
+	console.log("update bullet");
+	if (this.active) {
+	    this.y += this.speed;
+	    if (this.y > 600 || this.y < -8)
+		this.active = false;
+	    this.draw();
+	}
     }
 }
 Bullet.prototype = new GameObject();
