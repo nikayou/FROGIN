@@ -32,12 +32,18 @@ function Controller() {
 	events = new Object();
     }
 
-    // adds an event to the registered event
+    /**
+     * Binds an action (string) to an Event (e). 
+     * When the key matching the action is involved in an input, 
+     * the event's command will be triggered. 
+     */
     this.registerEvent = function(a, e) {	
 	events[a] = e;
     }
 
-    // takes an action, and return the first event triggered by this action
+    /**
+     * Takes an action, and returns the event triggered by this action
+     */
     var getEvent = function(a) {
 	for (e in events) {
 	    if (e == a) {
@@ -47,10 +53,10 @@ function Controller() {
 	return null;
     }
 
-    this.getEvents = function() {
-	return events;
-    }
-
+    /**
+     * Computes and returns all commands to perform. 
+     * Each one should be called ( command.call() );
+     */
     this.getCommands = function() {
 	commands = [];
 	for (e in events) {
@@ -61,9 +67,9 @@ function Controller() {
     }
 
     /**
-     * Returns action associated to 'e' code (see file Keys.js)
+     * Returns the key name associated to 'e' code (see file Keys.js)
      */
-    var getAction = function(e) {
+    var getKeyName = function(e) {
 	var code = (e.keyCode) ? e.keyCode : e.charCode;
 	var action = KEYS[code];
 	if (!action || action=="") {
@@ -72,8 +78,12 @@ function Controller() {
 	return action;
     }
 
+    /**
+     * Retrieves the event bound to the matching key, and marks it as 
+     * "performed" if the trigger matches. 
+     */
     this.updateDown = function(e) {
-	var event = getEvent( getAction(e) );
+	var event = getEvent( getKeyName(e) );
 	if (event != null) {
 	    if (  event.trigger == TRIGGER_MAINTAIN ||
 		  (event.trigger == TRIGGER_PRESS 
@@ -86,8 +96,12 @@ function Controller() {
 	}
     }
 
+    /**
+     * Retrieves the event bound to the matching key, and marks it as 
+     * "performed" if the trigger matches. 
+     */
     this.updateUp = function(e) {
-	var event = getEvent( getAction(e) );
+	var event = getEvent( getKeyName(e) );
 	if (event != null) {
 	     if (event.trigger == TRIGGER_RELEASE) {
 		 event.isPerformed = true;
@@ -98,6 +112,9 @@ function Controller() {
 	}
     }
 
+    /**
+     * Cleans all registered events. 
+     */
     this.cleanEvents = function() {
 	events = [];
     }

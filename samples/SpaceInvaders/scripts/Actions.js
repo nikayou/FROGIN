@@ -1,3 +1,8 @@
+/**
+ * Conversions of key codes to human-understandable values. 
+ * Some codes aren't consistent among browser and should be used 
+ * wisely. 
+ */
 KEYS = {
     // arrows (consistent)
     37: 'left',

@@ -14,15 +14,12 @@ function GameObject() {
     };
     this.clear = function() {
 	if (this.width && this.height) {
-	    console.log("has width and height : "+this.width+"x"+this.height);
 	    this.context.clearRect(this.x, this.y, this.width, this.height);
 	}else{	    
-	    console.log("clearing all canvas");
 	    this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 	}
     };
     this.draw = function() {
-	console.log("draw");
 	this.clear();
 	this.graphics.draw(this.context, this.x, this.y);
     };
@@ -83,9 +80,6 @@ function Player() {
 	this.name = name;
 	this.x = x;
 	this.y = y;
-//	this.width = 32;
-//	this.height = 32;
-	console.log(document.getElementById("canvas_ally"));
 	this.graphics = new Clip();
 	this.graphics.init(imageHolder.spritesheet, 
 			   128, 96, 
@@ -171,7 +165,6 @@ function Bullet() {
 	this.draw();
     }
     this.update = function() {
-	console.log("update bullet");
 	if (this.active) {
 	    this.y += this.speed * deltaTime;
 	    if (this.y > 600 || this.y < -8)

@@ -5,6 +5,7 @@
  * Variables : 
  * game - current instance of the game
  * imageHolder - image manager, loading required images
+ * deltaTime - time elapsed since last frame
  */
 
 
@@ -55,10 +56,8 @@ function Game() {
      * Game is an encapsulation for general game instance infos. 
      * 
      * Members :
-     * deltaTime - time elapsed since last frame, in seconds
      * scene - current scene, being updated and rendered
      */
-    deltaTime = 0;
     this.init = function() {
 	this.scene = new Level();
 	this.scene.init();
@@ -78,14 +77,14 @@ function Game() {
     };
 
     this.draw = function() {
-	this.scene.draw();
+	// nothing here
     };
 
     this.exit = function() {
 	this.scene.exit();
     };
 
-    /*
+    /**
      * Called every frame, just computes the new state as a scene and renders it
      */
     this.loop = function() {
@@ -95,7 +94,7 @@ function Game() {
 }
 
 
-/*
+/**
  * Singleton holding all the images. Prevents images from being loaded twice. 
  */
 var imageHolder = new function () {
