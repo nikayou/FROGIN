@@ -62,73 +62,27 @@ Bullet.prototype = new GameObject();
 
 function BulletPool() {
     /**
-     * BulletPool manages the construction, spawning, and destruction of bullets
-     * assuming the fact that there is a limit of bullet.
+     * BulletPool is a Pool specialised with Bullets.
      *
-     * Members : 
-     * MAX_UNITS - maximum number of bullets that can be present at the same 
-     *             time
-     * units - array containing all bullets with a state : active/inactive
-     *
-     * How it works : 
-     * creation of objects is a long task, so we prefer to do it at the 
-     * beginning of the game, and enable these objects on demand. 
-     * When we need an object, it is taken at the end : active objects are 
-     * located at the front of the array, inactive objects are located 
-     * at the end of the array. 
+     * Prototype : Pool
      */
-    var MAX_UNITS = 0;
-    this.units = []
 
     /**
      * Creates 'max' bullets initialised with the given args, and sets them
      * as 'inactive'. 
      */
-    this.init = function(max, args) {
-	MAX_UNITS = max;
-	for (var i = 0; i < MAX_UNITS; i++) {
-	    var u = new Bullet();
-	    u.init(u, args);
-	    u.active = false;
-	    this.units[i] = u;
-	}
+    this.createUnit = function(args) {
+	console.log("createUnit : BulletPool");
+	var r = new Bullet();
+	r.init(args);
+	return r;
     }
 
-    /**
-     * Activates a bullet with the given args and returns it.
-     * If no bullet can be activated, 'null' is returned. 
-     */
-    this.spawn = function(args) {
-	console.log("spawning bullet at "+args);
-	var unit = this.units[MAX_UNITS-1];
-	if(!unit.active) {
-	    unit.active = true;
-	    unit.reset.apply(unit, args);
-	    this.units.unshift(this.units.pop());
-	    return unit;
-	}
-	return null;
-    }
-    this.despawn = function(i) {
-	this.units.push((this.units.splice(i,1))[0]);
-    }
-    this.update = function() {
-	var s="update "+MAX_UNITS+"\n{";
-	for (var i = 0; i < MAX_UNITS; i++) {
-	    s += i+":";
-	    if(this.units[i].active)
-		s += "1";
-	    else
-		s += "0";
-	    s += ",";
-	    if (this.units[i].update()) {
-		this.units[i].draw();
-	    }else {
-		this.despawn(i);
-		this.active = false;
-	    }
-	}
-	s+="}";
-//	console.log(s);
-    }
 }
+BulletPool.prototype = new Pool();
+BulletPool.prototype.createUnit = function(args){
+    var r = new Bullet();
+    r.init(args);
+    return r; 
+};
+
