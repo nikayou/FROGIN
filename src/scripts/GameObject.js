@@ -14,7 +14,7 @@ function GameObject() {
     };
     this.clear = function() {
 	if (this.width && this.height) {
-	    this.context.clearRect(this.x, this.y, this.width, this.height);
+	    this.context.clearRect(this.x, this.y, this.x+this.width, this.y+this.height);
 	}else{	    
 	    this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 	}

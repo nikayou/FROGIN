@@ -32,7 +32,6 @@ function Level() {
      * bullets - array containing the bullets
      * canvas_* - different canvases to display
      */
-    this.bullets = [];
     this.init = function() {
 	this.initRenderer();
 	this.background = new Background();
@@ -40,6 +39,8 @@ function Level() {
 	this.background.draw();
 	this.player = new Player();
 	this.player.init("player", 400, 560);
+	this.bullets = new BulletPool();
+	this.bullets.init(32, [-20, -20, 0]);
 	this.enemy = new Enemy();
 	this.enemy.init("enemy", 80, 60);
 	// init controller
@@ -65,10 +66,10 @@ function Level() {
 	document.addEventListener("keydown", callDown.apply(this)(), false);
 	document.addEventListener("keyup", callUp.apply(this)(), false);
 	var spaceAction = function(){ 
-	    this.spawnBullet(this.player.x+15, this.player.y-9, A_BULLET_SPEED);
+	    this.bullets.spawn([this.player.x+15, this.player.y-9, A_BULLET_SPEED]);
 	};
 	var event = new Event();
-	event.init(spaceAction, TRIGGER_MAINTAIN);
+	event.init(spaceAction, TRIGGER_PRESS);
 	var left = new Event();
 	left.init(function(){this.player.move(-A_SPEED);}, 
 		  TRIGGER_MAINTAIN);
@@ -117,9 +118,10 @@ function Level() {
 	}
 	this.background.update();
 	this.player.update();
-	for (b in this.bullets) {
-	    this.bullets[b].update();
-	}
+	this.bullets.update();
+//	for (b in this.bullets) {
+//	    this.bullets[b].update();
+//	}
     };
     this.draw = function() {
 	// should be called only when its required to redraw the whole scene
