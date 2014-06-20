@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>{{ title }}</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" media="screen" href={{ style }} />
+  </head>
+
+  <body onload="start()">
+    <div id="canvases">
+      {% for canvas in canvases %}
+      <canvas id={{canvas.id}} width={{canvas.width}} height={{canvas.height}}>
+      </canvas>
+      {% endfor %}
+      {% for script in scripts %}
+      <script src="scripts/{{script.name}}"></script>
+      {% endfor %}
+    </div>
+  </body>
+
+</html>
