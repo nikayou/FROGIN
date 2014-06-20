@@ -66,18 +66,6 @@ function BulletPool() {
      *
      * Prototype : Pool
      */
-
-    /**
-     * Creates 'max' bullets initialised with the given args, and sets them
-     * as 'inactive'. 
-     */
-    this.createUnit = function(args) {
-	console.log("createUnit : BulletPool");
-	var r = new Bullet();
-	r.init(args);
-	return r;
-    }
-
 }
 BulletPool.prototype = new Pool();
 BulletPool.prototype.createUnit = function(args){
