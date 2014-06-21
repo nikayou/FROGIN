@@ -84,10 +84,10 @@ function Pool() {
 	    if (this.units[i].active) {
 		if (this.units[i].update()) {
 		    this.units[i].draw();
-		}else {
+		} else {
 		    this.despawn(i);
 		    this.resetUnit(this.units[i]);
-		    this.active = false;
+		    this.units[i].active = false;
 		}
 	    }
 	}
