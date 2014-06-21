@@ -70,15 +70,25 @@ function Pool() {
     }
 
     /**
+     * Called when an object has just been deactivated.
+     */
+    this.resetUnit = function(u, args) {
+	
+    }
+
+    /**
      * 
      */
     this.update = function() {
 	for (var i = 0; i < MAX_UNITS; i++) {
-	    if (this.units[i].update()) {
-		this.units[i].draw();
-	    }else {
-		this.despawn(i);
-		this.active = false;
+	    if (this.units[i].active) {
+		if (this.units[i].update()) {
+		    this.units[i].draw();
+		}else {
+		    this.despawn(i);
+		    this.resetUnit(this.units[i]);
+		    this.active = false;
+		}
 	    }
 	}
     }

@@ -73,4 +73,8 @@ BulletPool.prototype.createUnit = function(args){
     r.init(args);
     return r; 
 };
+BulletPool.prototype.resetUnit = function(u){
+    console.log("reset");
+    u.reset(-20, -20, 0);
+};
 
