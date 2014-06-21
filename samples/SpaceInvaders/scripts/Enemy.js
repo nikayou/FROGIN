@@ -83,8 +83,8 @@ function Wave() {
 	var x = 0;
 	x += originalX;
 	var y = parseInt(pattern.substring(dash+1, colon));
-	var e = pattern.substring(colon+1);
-	var lines = e.split('|');
+	var enemies = pattern.substring(colon+1);
+	var lines = enemies.split('|');
 	for (i in lines) {
 	    var line = lines[i];
 	    while (line.length > 0) {
