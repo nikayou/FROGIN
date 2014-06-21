@@ -19,6 +19,8 @@ A_BULLET_SPEED = -400;
 E_BULLET_SPEED = 400;
 // ally's speed
 A_SPEED = 320;
+// minimum delay between to shoots
+A_SHOOT_DELAY = 500; 
 
 function Level() {
     /**
@@ -65,11 +67,19 @@ function Level() {
 	 */
 	document.addEventListener("keydown", callDown.apply(this)(), false);
 	document.addEventListener("keyup", callUp.apply(this)(), false);
-	var spaceAction = function(){ 
-	    this.bullets.spawn([this.player.x+15, this.player.y-9, A_BULLET_SPEED]);
-	};
+	var spaceAction = (function(){ 
+	    var last = new Date();
+	    return function() {
+		var now = new Date();
+		if (now - last >= A_SHOOT_DELAY) {
+		    last = now;
+		    var x = this.player.x + 15;
+		    var y = this.player.y - 9;
+		    this.bullets.spawn([x, y, A_BULLET_SPEED])
+		}
+	    } })();
 	var event = new Event();
-	event.init(spaceAction, TRIGGER_PRESS);
+	event.init(spaceAction, TRIGGER_MAINTAIN);
 	var left = new Event();
 	left.init(function(){this.player.move(-A_SPEED);}, 
 		  TRIGGER_MAINTAIN);
