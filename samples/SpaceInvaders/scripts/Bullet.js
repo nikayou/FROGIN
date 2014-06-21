@@ -36,10 +36,12 @@ function Bullet() {
      */
     this.update = function() {
 	if (this.active){
+	    this.clear();
 	    this.y += this.speed * deltaTime;
-	    if (this.y > 600 || this.y < -16)
+	    if (this.y > 600 || this.y < -16){
+		console.log("bullet dies at "+this.x+","+this.y);
 		this.active = false;
-//	    this.draw();
+	    }
 	}
 	return this.active;
 	
