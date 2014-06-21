@@ -39,7 +39,6 @@ function Bullet() {
 	    this.clear();
 	    this.y += this.speed * deltaTime;
 	    if (this.y > 600 || this.y < -16){
-		console.log("bullet dies at "+this.x+","+this.y);
 		this.active = false;
 	    }
 	}
@@ -76,7 +75,6 @@ BulletPool.prototype.createUnit = function(args){
     return r; 
 };
 BulletPool.prototype.resetUnit = function(u){
-    console.log("reset");
     u.reset(-20, -20, 0);
 };
 
