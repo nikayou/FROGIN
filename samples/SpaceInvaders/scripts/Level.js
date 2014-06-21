@@ -43,8 +43,9 @@ function Level() {
 	this.player.init("player", 400, 560);
 	this.bullets = new BulletPool();
 	this.bullets.init(32, [-20, -20, 0]);
-	this.enemy = new Enemy();
-	this.enemy.init("enemy", 80, 60);
+	this.enemies = new Wave();
+	this.enemies.init();
+	this.enemies.spawn(PATTERNS[0]);
 	// init controller
 	this.controller = new Controller();
 	this.controller.init(this);
@@ -127,8 +128,9 @@ function Level() {
 	    commands[i].call(this);
 	}
 	this.background.update();
-	this.player.update();
 	this.bullets.update();
+	this.player.update();
+	this.enemies.update();
 //	for (b in this.bullets) {
 //	    this.bullets[b].update();
 //	}
