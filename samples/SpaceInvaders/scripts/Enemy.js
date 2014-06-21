@@ -16,7 +16,6 @@ function Enemy() {
 	this.graphics = new Clip();
 	this.changeLevel(lvl);
 	this.health = this.level;
-	console.log("enemy created at "+x+","+y+"("+lvl);
     }
     this.update = function() {
 	return true;
@@ -34,7 +33,6 @@ function Enemy() {
 	this.x = x;
 	this.y = y;
 	this.changeLevel(lvl);	
-	console.log("enemy resetted at "+x+","+y+"("+lvl);
     }
 }
 Enemy.prototype = new GameObject();
@@ -76,7 +74,6 @@ function Wave() {
     }
 
     this.spawn = function(pattern) {
-	console.log("spawning");
 	var dash = pattern.indexOf("-");
 	var colon = pattern.indexOf(":");
 	var originalX = parseInt(pattern.substring(0, dash));
@@ -107,7 +104,6 @@ function EnemyPool() {
 }
 EnemyPool.prototype = new Pool();
 EnemyPool.prototype.createUnit = function(args) {
-    console.log("creating unit");
     var e = new Enemy();
     e.init(args);
     return e;
