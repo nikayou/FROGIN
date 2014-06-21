@@ -131,9 +131,6 @@ function Level() {
 	this.bullets.update();
 	this.player.update();
 	this.enemies.update();
-//	for (b in this.bullets) {
-//	    this.bullets[b].update();
-//	}
     };
     this.draw = function() {
 	// should be called only when its required to redraw the whole scene
@@ -144,20 +141,6 @@ function Level() {
     this.exit = function() {
 	this.player.exit();
 	this.background.exit();
-    };
-
-    /**
-     * Spawns a bullet at 'x','y' moving vertically at 'v'
-     */
-    this.spawnBullet = function(x, y, v) {
-	var b = new Bullet();
-	b.init(x, y, v);
-	if (this.bullets[this.bullets.length-1] && 
-	    this.bullets[this.bullets.length-1].active) {
-	    this.bullets[this.bullets.length] = b;
-	} else {	    
-	    this.bullets[this.bullets.length-1] = b;
-	}
     };
 
 }
