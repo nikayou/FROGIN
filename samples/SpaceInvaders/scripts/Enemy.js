@@ -60,17 +60,46 @@ function Wave() {
      *
      * Members : 
      * pool - Enemies pool, to avoid recreating new objects each wave.
-     * 
+     * speedX - speed at which enemies move horizontally
+     * speedY - speed at which enemies move vertically
      */
 
     this.init = function() {
+	this.speedX = 1;
+	this.speedY = 16;
 	this.pool = new EnemyPool();
 	this.pool.init(64, ["enemy", -20, -20, 1]);
+	this.pool.moveAll = function(x, y) {
+	    var bound = false;
+	    var decX = 0;	    
+	    for (i in this.units) {
+		this.units[i].move(x, y);
+		if (this.units[i].x <= 0) {
+		    decX = Math.max(decX, -this.units[i].x);
+		    bound = true;
+		} else if (this.units[i].x + 32 >= 800) {
+		    decX = Math.min(decX, -(this.units[i].x +32 - 800));
+		    bound = true;
+		}		    
+	    }
+	    if (decX != 0) {
+		console.log("recursion : "+decX);
+		return this.moveAll(decX, 0);
+	    } else {
+		return bound;
+	    }
+	}
     } 
 
     this.update = function() {
 	this.pool.units[0].clear();
 	this.pool.update();
+	// TODO : consider deltaTime
+//	if (this.pool.moveAll(this.speedX*deltaTime, 0) ) {
+	if (this.pool.moveAll(this.speedX, 0) ) {
+ 	    this.speedX = -this.speedX;
+	    this.pool.moveAll(0, this.speedY);
+	}
     }
 
     this.spawn = function(pattern) {
