@@ -54,6 +54,8 @@ PATTERNS = [
 "40-64:440000004400044000|330000033330033000|330000330033033000|220000220022022000|220000220022022000|111110011110011111|111110001100011111"
 ]; 
 
+FORWARD_STEP = 16;
+
 function Wave() {
     /**
      * Wave is just a group of enemies arranged following a pattern. 
@@ -66,7 +68,9 @@ function Wave() {
 
     this.init = function() {
 	this.speedX = 1;
-	this.speedY = 16;
+	this.speedY = 1;
+	this.forward = false;
+	this.prev = 0;
 	this.pool = new EnemyPool();
 	this.pool.init(64, ["enemy", -20, -20, 1]);
 	this.pool.moveAll = function(x, y) {
@@ -92,14 +96,24 @@ function Wave() {
     } 
 
     this.update = function() {
-	this.pool.units[0].clear();
-	this.pool.update();
-	// TODO : consider deltaTime
-//	if (this.pool.moveAll(this.speedX*deltaTime, 0) ) {
-	if (this.pool.moveAll(this.speedX, 0) ) {
- 	    this.speedX = -this.speedX;
-	    this.pool.moveAll(0, this.speedY);
-	}
+//	var prev = 0;
+	(function(){
+	    this.pool.units[0].clear();
+	    this.pool.update();
+	    // TODO : consider deltaTime
+	    //	if (this.pool.moveAll(this.speedX*deltaTime, 0) ) {
+	    if (this.forward){
+		this.pool.moveAll(0, this.speedY);	
+		this.prev += this.speedY;
+		if (this.prev >= FORWARD_STEP) {
+		    this.forward = false;
+		}
+	    } else if (this.pool.moveAll(this.speedX, 0) ) {
+ 		this.forward = true;
+		this.prev = 0;
+		this.speedX = -this.speedX;	    
+	    }
+	}).apply(this);
     }
 
     this.spawn = function(pattern) {
