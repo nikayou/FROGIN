@@ -7,7 +7,7 @@ var start = function() {
  * Singleton holding all the images. Prevents images from being loaded twice. 
  */
 var imageHolder = new function () {
-    var nbImages = 1;
+    var nbImages = 2;
     // background image
     this.background = new Image();
     this.background.src = "assets/images/background.png";
