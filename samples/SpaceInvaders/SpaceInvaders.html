@@ -5,14 +5,7 @@
     <title>Space Invaders</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css" />
-  </head>
 
-  <body onload="start()">
-    <div id="canvases">
-      <canvas id="canvas_background" width="800" height="600"></canvas>
-      <canvas id="canvas_enemies" width="800" height="600"></canvas>
-      <canvas id="canvas_ally" width="32" height="32"></canvas>
-      <canvas id="canvas_bullets" width="800" height="600"></canvas>
       <!-- include framework -->
       <script src="../../src/scripts/Drawable.js"></script>
       <script src="../../src/scripts/Sprite.js"></script>
@@ -30,7 +23,16 @@
       <script src="scripts/Player.js"></script>
       <script src="scripts/Level.js"></script>
       <script src="scripts/SpaceInvaders.js"></script>
-      <!-- -->
+      <!-- end of scripts inclusion -->
+
+  </head>
+
+  <body onload="start()">
+    <div id="canvases">
+      <canvas id="canvas_background" width="800" height="600"></canvas>
+      <canvas id="canvas_enemies" width="800" height="600"></canvas>
+      <canvas id="canvas_ally" width="32" height="32"></canvas>
+      <canvas id="canvas_bullets" width="800" height="600"></canvas>
     </div>
   </body>
 
