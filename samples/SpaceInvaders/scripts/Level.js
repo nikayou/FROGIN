@@ -58,7 +58,7 @@ function Level() {
 	});
 	var explode = function(o1, o2) {
 	    o1.kill();
-	    o2.kill();
+	    o2.loseHealth();
 	};
 	this.collisionManager.registerAction("bullet", "enemy", explode);
 	for (i in this.bullets.units) {

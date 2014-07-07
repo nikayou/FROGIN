@@ -39,11 +39,19 @@ function Enemy() {
 	this.y = y;
 	this.collider.x = x;
 	this.collider.y = y;
-	this.changeLevel(lvl);	
+	this.changeLevel(lvl);
+	this.health = lvl;
     }
-    this.kill = function(){
+    this.kill = function() {
 	this.reset(0, 0, 0);
 	this.active = 0;
+    }
+    this.loseHealth = function() {
+	this.health --;
+	console.log("lose health : "+this.health);
+	if (this.health <= 0) {
+	    this.kill();
+	}
     }
 }
 Enemy.prototype = new GameObject();
@@ -145,7 +153,7 @@ function Wave() {
 		var lvl = parseInt(line.substring(0,1));
 		if (lvl != 0)
 		    this.pool.spawn([x, y, lvl]);
-		console.log("spawned enemy at "+x+","+y);
+		console.log("spawned enemy at "+x+","+y+"("+lvl);
 		x += 40;
 		line = line.slice(1);
 	    }
