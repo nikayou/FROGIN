@@ -40,7 +40,6 @@ function Pool() {
      * Example of function of creation. 
      */
     this.createUnit = function(args) {
-	console.log("createUnit : ObjectPool");
 	var r = new Object();
 	r.init(args);
 	return r;

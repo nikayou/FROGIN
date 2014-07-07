@@ -13,9 +13,7 @@ function Enemy() {
 	this.x = x;
 	this.y = y;
 	this.collider = new BoxCollider();
-//	console.log("ctor : "+this+" -> "+this.collider);
 	this.collider.init(x, y, 32, 32);
-//	console.log("init : "+this+" -> "+this.collider);
 	this.level = -1;
 	this.graphics = new Clip();
 	this.changeLevel(lvl);
@@ -118,12 +116,10 @@ function Wave() {
     } 
 
     this.update = function() {
-//	var prev = 0;
 	(function(){
 	    this.pool.units[0].clear();
 	    this.pool.update();
 	    // TODO : consider deltaTime
-	    //	if (this.pool.moveAll(this.speedX*deltaTime, 0) ) {
 	    if (this.forward){
 		this.pool.moveAll(0, this.speedY);	
 		this.prev += this.speedY;
@@ -153,7 +149,6 @@ function Wave() {
 		var lvl = parseInt(line.substring(0,1));
 		if (lvl != 0)
 		    this.pool.spawn([x, y, lvl]);
-		console.log("spawned enemy at "+x+","+y+"("+lvl);
 		x += 40;
 		line = line.slice(1);
 	    }

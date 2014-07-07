@@ -15,7 +15,6 @@ function CollisionManager() {
 		var o2 = this.objects[j];
 		if ( this.condition(o1,o2) ) {
 		    if ( o1.collider.collidesWith(o2.collider) ) {
-			console.log("update : collision "+o1.name+"-"+o2.name);
 			this.actions[o1.name][o2.name](o1, o2);
 		    }
 		} else {
