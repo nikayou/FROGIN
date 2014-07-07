@@ -66,6 +66,11 @@ function Bullet() {
 	this.collider.y = y;
 	this.speed = s;
     }
+    this.kill = function() {
+	this.clear();
+	this.reset(0,0,1);
+	this.active = false;
+    }
 }
 Bullet.prototype = new GameObject();
 

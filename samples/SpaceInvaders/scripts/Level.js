@@ -57,12 +57,8 @@ function Level() {
 		    && !(o1.name === "enemy" && o2.name === "bullet"));
 	});
 	var explode = function(o1, o2) {
-	    o1.x = 0;
-	    o1.y = 0;
-	    o2.x = 0;
-	    o2.y = 0;
-	    o1.active = false;
-	    o2.active = false;
+	    o1.kill();
+	    o2.kill();
 	};
 	this.collisionManager.registerAction("bullet", "enemy", explode);
 	for (i in this.bullets.units) {

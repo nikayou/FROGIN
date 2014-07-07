@@ -41,6 +41,10 @@ function Enemy() {
 	this.collider.y = y;
 	this.changeLevel(lvl);	
     }
+    this.kill = function(){
+	this.reset(0, 0, 0);
+	this.active = 0;
+    }
 }
 Enemy.prototype = new GameObject();
 
