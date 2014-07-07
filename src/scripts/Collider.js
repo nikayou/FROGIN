@@ -48,24 +48,34 @@ function BoxCollider(x, y, width, height) {
     };
     this.collidesWith = function(other) {
 	if (other.shapeName === "box") {
-	    var xgap = this.x - other.x;
-	    // checking if the horizontal is matching
-	    if (xgap > 0 && xgap < other.width 
-		|| xgap < this.width) {
-		// horizontal matches, checking vertical
-		var ygap = this.y - other.y;
-		if (ygap > 0 && ygap < other.height
-		       || ygap < this.height) {
-//		    console.log("collision :\n"+this.toString()+"\n"+this.toString());
-		    return true;
-		}
+	    var xGap = this.x - other.x;
+	    var xCollides = false;
+	    if (xGap < 0) {
+		xCollides = (-xGap <= other.width)
+	    } else if (xGap > 0){
+		xCollides = (xGap <= this.width);
 	    } else {
-		return false;
-	    }	    
-	    
+		// xGap == 0, there is at least 1 point in common
+		xCollides = true;
+	    }
+	    if (xCollides) {
+		var yGap = this.y - other.y;
+		var yCollides = false;
+		if (yGap < 0) {
+		    yCollides = (-yGap <= other.height)
+		} else if (yGap > 0){
+		    yCollides = (yGap <= this.height);
+		} else {
+		    // yGap == 0, there is at least 1 point in common
+		    yCollides = true;
+		}
+   		// x collides and y collides;
+		return yCollides;
+	    }
 	} else if (other.shapeName === "circle"){
-
+	    
 	}
+	return false;
     };
     this.move = function(x, y) {
 	this.x += x;
