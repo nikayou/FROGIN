@@ -49,6 +49,29 @@ function Level() {
 	// init controller
 	this.controller = new Controller();
 	this.controller.init(this);
+	// init collisionManager
+	this.collisionManager = new CollisionManager();
+	this.collisionManager.init(function(o1, o2){ 
+	    return (o1.active && o2.active 
+		    && o1.name != o2.name 
+		    && !(o1.name === "enemy" && o2.name === "bullet"));
+	});
+	var explode = function(o1, o2) {
+	    o1.x = 0;
+	    o1.y = 0;
+	    o2.x = 0;
+	    o2.y = 0;
+	    o1.active = false;
+	    o2.active = false;
+	};
+	this.collisionManager.registerAction("bullet", "enemy", explode);
+	for (i in this.bullets.units) {
+	    this.collisionManager.addObject( this.bullets.units[i]);
+	}
+	var units = this.enemies.pool.units;
+	for (i in units) {	    
+	    this.collisionManager.addObject( units[i]);
+	}
 	/*
 	 * The two following functions are necessary because otherwise, 
 	 * "controller.updateDown" is called with the Window as context.
@@ -76,7 +99,8 @@ function Level() {
 		    last = now;
 		    var x = this.player.x + 15;
 		    var y = this.player.y - 9;
-		    this.bullets.spawn([x, y, A_BULLET_SPEED])
+		    var b = this.bullets.spawn([x, y, A_BULLET_SPEED]);
+		    this.collisionManager.addObject(b);
 		}
 	    } })();
 	var event = new Event();
@@ -131,6 +155,7 @@ function Level() {
 	this.bullets.update();
 	this.player.update();
 	this.enemies.update();
+	this.collisionManager.update();
     };
     this.draw = function() {
 	// should be called only when its required to redraw the whole scene

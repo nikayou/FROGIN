@@ -12,6 +12,10 @@ function Enemy() {
 	this.name = name;
 	this.x = x;
 	this.y = y;
+	this.collider = new BoxCollider();
+//	console.log("ctor : "+this+" -> "+this.collider);
+	this.collider.init(x, y, 32, 32);
+//	console.log("init : "+this+" -> "+this.collider);
 	this.level = -1;
 	this.graphics = new Clip();
 	this.changeLevel(lvl);
@@ -28,10 +32,13 @@ function Enemy() {
     this.move = function(x, y) {
 	this.x += x;
 	this.y += y;
+	this.collider.move(x, y);
     }
     this.reset = function(x, y, lvl) {
 	this.x = x;
 	this.y = y;
+	this.collider.x = x;
+	this.collider.y = y;
 	this.changeLevel(lvl);	
     }
 }
@@ -148,7 +155,7 @@ function EnemyPool() {
 EnemyPool.prototype = new Pool();
 EnemyPool.prototype.createUnit = function(args) {
     var e = new Enemy();
-    e.init(args);
+    e.init.apply(e, args);
     return e;
 };
 EnemyPool.prototype.resetUnit = function(e) {

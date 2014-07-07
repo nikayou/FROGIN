@@ -14,6 +14,9 @@ function Bullet() {
 	this.y = y;
 	this.width = 2;
 	this.height = 8;
+	this.collider = 3;
+	this.collider = new BoxCollider();
+	this.collider.init(x, y, 2, 8);
 	this.speed = s;
 	this.active = true;
 	this.graphics = new Clip();
@@ -37,7 +40,9 @@ function Bullet() {
     this.update = function() {
 	if (this.active){
 	    this.clear();
-	    this.y += this.speed * deltaTime;
+	    var yMovement = this.speed * deltaTime;
+	    this.y += yMovement;
+	    this.collider.y += yMovement;
 	    if (this.y > 600 || this.y < -16){
 		this.active = false;
 	    }
@@ -48,6 +53,8 @@ function Bullet() {
     this.setPosition = function(x, y) {
 	this.x = x;
 	this.y = y;
+	this.collider.x = x;
+	this.collider.y = y;
     }
     this.setSpeed = function(s) {
 	this.speed = s;
@@ -55,6 +62,8 @@ function Bullet() {
     this.reset = function(x, y, s) {
      	this.x = x;
 	this.y = y;
+	this.collider.x = x;
+	this.collider.y = y;
 	this.speed = s;
     }
 }
@@ -71,7 +80,8 @@ function BulletPool() {
 BulletPool.prototype = new Pool();
 BulletPool.prototype.createUnit = function(args){
     var r = new Bullet();
-    r.init(args);
+    console.log("pool : creating bullet");
+    r.init.apply(r, args);
     return r; 
 };
 BulletPool.prototype.resetUnit = function(u){
