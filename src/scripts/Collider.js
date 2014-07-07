@@ -50,10 +50,10 @@ function BoxCollider(x, y, width, height) {
 	if (other.shapeName === "box") {
 	    var xGap = this.x - other.x;
 	    var xCollides = false;
-	    if (xGap < 0) {
-		xCollides = (-xGap <= other.width)
-	    } else if (xGap > 0){
-		xCollides = (xGap <= this.width);
+	    if (xGap > 0) {
+		xCollides = (xGap <= other.width)
+	    } else if (xGap < 0){
+		xCollides = (-xGap <= this.width);
 	    } else {
 		// xGap == 0, there is at least 1 point in common
 		xCollides = true;
@@ -61,15 +61,14 @@ function BoxCollider(x, y, width, height) {
 	    if (xCollides) {
 		var yGap = this.y - other.y;
 		var yCollides = false;
-		if (yGap < 0) {
-		    yCollides = (-yGap <= other.height)
-		} else if (yGap > 0){
-		    yCollides = (yGap <= this.height);
+		if (yGap > 0) {
+		    yCollides = (yGap <= other.height)
+		} else if (yGap < 0){
+		    yCollides = (-yGap <= this.height);
 		} else {
 		    // yGap == 0, there is at least 1 point in common
 		    yCollides = true;
 		}
-   		// x collides and y collides;
 		return yCollides;
 	    }
 	} else if (other.shapeName === "circle"){
