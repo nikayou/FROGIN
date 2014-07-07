@@ -94,15 +94,12 @@ function Wave() {
 		currentU.move(x, y);
 		if (currentU.x < 0) {
 		    // left		    
-		    console.log("pos "+i+" : "+currentU.x+","+currentU.y);
-		    console.log("pas chelou ? "+decX+"-"+(-currentU.x));
 		    decX = Math.max(decX, -currentU.x);
 		} else if (this.units[i].x + 32 > 800) {
 		    // right
 		    decX = Math.min(decX, -(currentU.x +32 - 800));
 		}		    
 	    }
-	    console.log("decX : "+decX);
 	    if (decX != 0) {
 		for (i in this.units) {
 		    this.units[i].move(decX, 0);
