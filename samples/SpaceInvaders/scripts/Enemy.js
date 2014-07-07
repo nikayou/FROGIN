@@ -84,21 +84,27 @@ function Wave() {
 	    var bound = false;
 	    var decX = 0;	    
 	    for (i in this.units) {
-		this.units[i].move(x, y);
-		if (this.units[i].x <= 0) {
-		    decX = Math.max(decX, -this.units[i].x);
-		    bound = true;
-		} else if (this.units[i].x + 32 >= 800) {
-		    decX = Math.min(decX, -(this.units[i].x +32 - 800));
-		    bound = true;
+		var currentU = this.units[i];
+		if (!currentU.active)
+		    continue;
+		currentU.move(x, y);
+		if (currentU.x < 0) {
+		    // left		    
+		    console.log("pos "+i+" : "+currentU.x+","+currentU.y);
+		    console.log("pas chelou ? "+decX+"-"+(-currentU.x));
+		    decX = Math.max(decX, -currentU.x);
+		} else if (this.units[i].x + 32 > 800) {
+		    // right
+		    decX = Math.min(decX, -(currentU.x +32 - 800));
 		}		    
 	    }
+	    console.log("decX : "+decX);
 	    if (decX != 0) {
-		console.log("recursion : "+decX);
-		return this.moveAll(decX, 0);
-	    } else {
-		return bound;
-	    }
+		for (i in this.units) {
+		    this.units[i].move(decX, 0);
+		}
+		return true;
+	    } 
 	}
     } 
 
@@ -138,6 +144,7 @@ function Wave() {
 		var lvl = parseInt(line.substring(0,1));
 		if (lvl != 0)
 		    this.pool.spawn([x, y, lvl]);
+		console.log("spawned enemy at "+x+","+y);
 		x += 40;
 		line = line.slice(1);
 	    }
