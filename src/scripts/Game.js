@@ -67,9 +67,9 @@ function Game() {
 	this.scene.update();
     };
 
-    var previous = new Date;
+    var previous = Date.now();
     var updateDeltaTime = function() {
-	var now = new Date;
+	var now = Date.now();
 	deltaTime = (now-previous)/1000;
 	previous = now;
     };
