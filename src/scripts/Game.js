@@ -110,3 +110,4 @@ TextureManager.prototype.loadWithID = function(filePath, id) {
     obj.src = filePath;    
     this.assets[id] = obj;
 }
+var textureManager = new TextureManager();
