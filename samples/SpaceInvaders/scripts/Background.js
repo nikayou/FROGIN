@@ -16,7 +16,7 @@ function Background() {
 	this.speedX = sX;
 	this.speedY = sY;
 	this.graphics = new Sprite();
-	this.graphics.init(imageHolder.background);
+	this.graphics.init(textureManager.get("background"));
     };
     this.update = function() {
 	this.x += this.speedX;

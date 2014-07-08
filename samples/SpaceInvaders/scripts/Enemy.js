@@ -36,9 +36,8 @@ function Enemy() {
     }
     this.changeLevel = function(lvl) {
 	if (this.level != lvl && lvl > 0) {
-	    var sprt = new Spritesheet();
-	    sprt.loadFromFile("assets/spritesheets/enemy"+lvl+".xml");
-	    this.graphics.init(sprt, imageHolder.spritesheet);
+	    var sprt = spritesheetManager.get("enemy"+lvl);
+	    this.graphics.init(sprt, textureManager.get("spritesheet") );
 	}
     }
     this.move = function(x, y) {

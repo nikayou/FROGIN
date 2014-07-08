@@ -59,3 +59,13 @@ function Spritesheet() {
     }
 
 }
+
+
+function SpritesheetManager() {
+
+}
+SpritesheetManager.prototype = new AssetManager();
+SpritesheetManager.prototype.createObject = function() {
+    return (new Spritesheet());
+}
+spritesheetManager = new SpritesheetManager();

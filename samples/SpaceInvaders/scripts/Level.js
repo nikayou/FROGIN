@@ -35,6 +35,7 @@ function Level() {
      * canvas_* - different canvases to display
      */
     this.init = function() {
+	this.loadAssets();
 	this.initRenderer();
 	this.background = new Background();
 	this.background.init("bg", 0, 0, 0, 0);
@@ -111,6 +112,19 @@ function Level() {
 	this.controller.register("left", left);
 	this.controller.register("right", right);
     };
+
+    this.loadAssets = function() {
+	textureManager.loadWithID("assets/images/background.png", "background");
+	textureManager.loadWithID("assets/images/spritesheet.png", "spritesheet");
+	var sprtPath = "assets/spritesheets/";
+	spritesheetManager.loadWithID(sprtPath+"enemy1.xml", "enemy1");
+	spritesheetManager.loadWithID(sprtPath+"enemy2.xml", "enemy2");
+	spritesheetManager.loadWithID(sprtPath+"enemy3.xml", "enemy3");
+	spritesheetManager.loadWithID(sprtPath+"enemy4.xml", "enemy4");
+	spritesheetManager.loadWithID(sprtPath+"bonus.xml", "bonus");
+
+    }
+
     this.initRenderer = function() {
 	this.canvas_background = document.getElementById("canvas_background");
 	this.canvas_enemies = document.getElementById("canvas_enemies");
@@ -141,6 +155,7 @@ function Level() {
 	    Bullet.prototype.canvasHeight = this.canvas_bullets.height;
 	}	
     };
+
     this.update = function() {
 	Level.prototype.update();
 	var commands = this.controller.getCommands();
@@ -153,12 +168,14 @@ function Level() {
 	this.enemies.update();
 	this.collisionManager.update();
     };
+
     this.draw = function() {
 	// should be called only when its required to redraw the whole scene
 	this.background.draw();
 	this.player.draw();
 	
     };
+
     this.exit = function() {
 	this.player.exit();
 	this.background.exit();

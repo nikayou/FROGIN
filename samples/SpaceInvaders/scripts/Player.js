@@ -12,7 +12,7 @@ function Player() {
 	this.x = x;
 	this.y = y;
 	this.graphics = new Clip();
-	this.graphics.init(imageHolder.spritesheet, 
+	this.graphics.init(textureManager.get("spritesheet"), 
 			   128, 96, 
 			   32, 32);	
 	document.getElementById("canvas_ally").style.left = this.x+'px';

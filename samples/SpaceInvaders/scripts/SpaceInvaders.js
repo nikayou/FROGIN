@@ -5,6 +5,7 @@ var start = function() {
 /**
  * Singleton holding all the images. Prevents images from being loaded twice. 
  */
+/**
 var imageHolder = new function () {
     var nbImages = 2;
     // background image
@@ -27,3 +28,5 @@ var imageHolder = new function () {
 	}
     }
 };
+*/
+var textureManager = new TextureManager();

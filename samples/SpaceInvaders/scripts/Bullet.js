@@ -22,12 +22,12 @@ function Bullet() {
 	this.graphics = new Clip();
 	if (s > 0) {
 	    // speed is >0 = heading to the bottom = enemy bullet
-	    this.graphics.init(imageHolder.spritesheet,
+	    this.graphics.init(textureManager.get("spritesheet"),
 			       175, 16,
 			       2, 8);
 	} else {
 	    // speed is <0 = heading to the top = ally bullet
-	    this.graphics.init(imageHolder.spritesheet, 
+	    this.graphics.init(textureManager.get("spritesheet"), 
 			      175, 0,
 			      2, 8);
 	}
