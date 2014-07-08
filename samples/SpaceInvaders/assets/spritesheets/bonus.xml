@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<SPRITESHEET defaultAnim="random">
+  <CLIPS>
+    <clip id="0" x="160" y="192" w="32" h="32" dx="0" dy="0"/>
+    <clip id="1" x="160" y="32" w="32" h="32" dx="0" dy="0"/>
+    <clip id="2" x="160" y="64" w="32" h="32" dx="0" dy="0"/>
+    <clip id="3" x="160" y="96" w="32" h="32" dx="0" dy="0"/>
+    <clip id="4" x="160" y="128" w="32" h="32" dx="0" dy="0"/>
+    <clip id="5" x="160" y="192" w="32" h="32" dx="0" dy="0"/>
+  </CLIPS>
+  <ANIMATIONS>
+    <animation name="random">
+      <step clip="0" duration="0.1" />
+      <step clip="1" duration="0.1" />
+    </animation>
+    <animation name="shot">
+      <step clip="0" duration="0.1" />
+      <step clip="2" duration="0.1" />
+    </animation>
+    <animation name="repair">
+      <step clip="0" duration="0.1" />
+      <step clip="3" duration="0.1" />
+    </animation>
+    <animation name="wall">
+      <step clip="0" duration="0.1" />
+      <step clip="4" duration="0.1" />
+    </animation>
+    <animation name="points">
+      <step clip="0" duration="0.1" />
+      <step clip="5" duration="0.1" />
+    </animation>
+  </ANIMATIONS>
+</SPRITESHEET>

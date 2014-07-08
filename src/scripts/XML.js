@@ -6,5 +6,6 @@ function readXML(filePath) {
     }
     xmlhttp.open("GET", filePath, false);
     xmlhttp.send();
-    return xmlhttp.responseXML;
+    if (xmlhttp.readyState == 4)
+	return xmlhttp.responseXML;
 }

@@ -15,16 +15,20 @@ function Enemy() {
 	this.collider = new BoxCollider();
 	this.collider.init(x, y, 32, 32);
 	this.level = -1;
-	this.graphics = new Clip();
+	this.graphics = new Animation();
 	this.changeLevel(lvl);
 	this.health = this.level;
     }
     this.update = function() {
+	this.graphics.update();
 	return true;
     }
     this.changeLevel = function(lvl) {
-	if (this.level != lvl) {
-	    this.graphics.init(imageHolder.spritesheet, 32*(lvl-1), 0, 32, 32);
+	if (this.level != lvl && lvl > 0) {
+	    var sprt = new Spritesheet();
+	    sprt.loadFromFile("assets/spritesheets/enemy"+lvl+".xml");
+	    this.graphics.init(sprt, imageHolder.spritesheet);
+	    this.graphics.playAnimation("move");
 	}
     }
     this.move = function(x, y) {
