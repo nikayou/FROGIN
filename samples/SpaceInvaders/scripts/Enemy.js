@@ -8,6 +8,11 @@ function Enemy() {
      * level - number of hits to take + appearance
      * health - number of hits left before dying
      */
+
+    var dying = false; // tells if the unit is dying or not
+    var deathTime = 0.0; // time elasped since death
+    var DEATH_TIME_TOTAL = 0.25; // time the death lasts (see animation)
+
     this.init = function(name, x, y, lvl) {
 	this.name = name;
 	this.x = x;
@@ -20,6 +25,12 @@ function Enemy() {
 	this.health = this.level;
     }
     this.update = function() {
+	if (dying) {
+	    deathTime += deltaTime;
+	    if (deathTime >= DEATH_TIME_TOTAL) {
+		this.kill();
+	    }
+	}
 	this.graphics.update();
 	return true;
     }
@@ -31,9 +42,11 @@ function Enemy() {
 	}
     }
     this.move = function(x, y) {
-	this.x += x;
-	this.y += y;
-	this.collider.move(x, y);
+	if (!dying) {
+	    this.x += x;
+	    this.y += y;
+	    this.collider.move(x, y);
+	}
     }
     this.reset = function(x, y, lvl) {
 	this.x = x;
@@ -46,13 +59,18 @@ function Enemy() {
     this.kill = function() {
 	this.reset(0, 0, 0);
 	this.active = 0;
-	this.graphics.playAnimation("death", false);
     }
     this.loseHealth = function() {
 	this.health --;
-	this.graphics.playAnimation("hit", false);
 	if (this.health <= 0) {
-	    this.kill();
+	    this.collider.x = -32;
+	    this.collider.y = -32;
+	    this.collider.width = 1;
+	    this.collider.height = 1;
+	    dying = true;
+	    this.graphics.playAnimation("death", false);
+	}else {	    
+	    this.graphics.playAnimation("hit", false);
 	}
     }
 }
