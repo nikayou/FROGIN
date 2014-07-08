@@ -11,17 +11,18 @@
   </CLIPS>
   <ANIMATIONS>
     <animation name="move">
-      <step clip="0" duration="0.3" />
-      <step clip="1" duration="0.3" />
+      <step clip="0" duration="1.0" />
+      <step clip="1" duration="1.0" />
     </animation>
     <animation name="hit">
-      <step clip="2" duration="0.2" />
+      <step clip="2" duration="0.1" />
     </animation>
     <animation name="death">
-      <step clip="3" duration="0.1" />
-      <step clip="4" duration="0.1" />
-      <step clip="5" duration="0.1" />
-      <step clip="6" duration="0.1" />
+      <step clip="2" duration="0.05" />
+      <step clip="3" duration="0.05" />
+      <step clip="4" duration="0.05" />
+      <step clip="5" duration="0.05" />
+      <step clip="6" duration="0.05" />
     </animation>
   </ANIMATIONS>
 </SPRITESHEET>
