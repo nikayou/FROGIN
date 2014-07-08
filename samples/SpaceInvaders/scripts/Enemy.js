@@ -28,7 +28,7 @@ function Enemy() {
 	    var sprt = new Spritesheet();
 	    sprt.loadFromFile("assets/spritesheets/enemy"+lvl+".xml");
 	    this.graphics.init(sprt, imageHolder.spritesheet);
-	    this.graphics.playAnimation("move");
+	    this.graphics.playAnimation("move", true);
 	}
     }
     this.move = function(x, y) {
@@ -47,10 +47,11 @@ function Enemy() {
     this.kill = function() {
 	this.reset(0, 0, 0);
 	this.active = 0;
+	this.graphics.playAnimation("death", false);
     }
     this.loseHealth = function() {
 	this.health --;
-	console.log("lose health : "+this.health);
+	this.graphics.playAnimation("hit", false);
 	if (this.health <= 0) {
 	    this.kill();
 	}

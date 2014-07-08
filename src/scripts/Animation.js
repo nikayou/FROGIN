@@ -13,6 +13,7 @@ function Animation() {
 
     var timer = 0.0; // tells when the step should change
     var index = 0; // index of the current step
+    var loop = false; // tells if animation should be repeated
 
     step = null; // current step of the animation
     var clip = new Clip();    
@@ -38,9 +39,21 @@ function Animation() {
 
     this.update = function() {
 	timer += 1.0/60.0;
-	if (adjustTime.apply(this)) {
-	    // step has changed
-	    nextStep.apply(this);
+	while (timer >= step.duration) {    
+	    timer -= step.duration;
+	    index++;
+	    if (index >= this.animation.steps.length) {
+		// when animation is over, switch to another animation
+		if (loop) {
+		    index = 0;
+		} else {
+		    var oldtime = timer;
+		    this.playAnimation(this.defaultAnimationName, true);
+		    timer = oldtime;
+		}
+	    }
+	    step = this.animation.steps[index];
+	    copyClip(this.spritesheet.clips[step.clip]);
 	}
     }
 
@@ -48,34 +61,9 @@ function Animation() {
 	clip.draw(context, x, y);
     }
 
-    var adjustTime = function() {
-	var changed = false;
-	console.log(step.duration);
-	while (timer >= step.duration) {
-	    changed = true;
-	    index++;
-	    console.log("index : "+index);
-	    // this.animation undefined
-	    step = this.animation.steps[index];
-	    timer -= step.duration;
-	}
-	return changed;
-    }
-
-    var nextStep = function() {	
-	if (index >= this.animation.steps.length) {
-	    // when animation is over, switch to another animation
-	    index = 0;
-	    if (this.defaultAnimation != "")
-		this.animation = this.spritesheet.animations[name];
-	} 
-	step = this.animation.steps[index];
-	copyClip(this.spritesheet.clips[step.clip]);
-    }
-
-    this.playAnimation = function(name) {
+    this.playAnimation = function(name, looped) {
 	this.animation = this.spritesheet.animations[name];
-	console.log("set animation "+this.animation);
+	loop = looped;
 	timer = 0.0;
 	index = 0;
 	step = this.animation.steps[index];
