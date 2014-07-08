@@ -172,11 +172,6 @@ function Level() {
     };
 
     this.draw = function() {
-	// should be called only when its required to redraw the whole scene
-//	this.background.draw();
-//	this.player.draw();
-//	this.canvas_background.getContext("2d").font="20px Arial";
-//	this.canvas_background.getContext("2d").fillText(document.getElementById("fps").innerHTML, 20, 20);
 	
     };
 
