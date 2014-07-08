@@ -15,7 +15,7 @@ function Spritesheet() {
 
     this.init = function() {
 
-    }
+    };
 
     this.loadFromFile = function(filePath) {
 	var xml = readXML(filePath);
@@ -50,12 +50,11 @@ function Spritesheet() {
 	}
 	this.defaultAnimationName = xml.getElementsByTagName("SPRITESHEET")[0].
 	    getAttribute("defaultAnim");
-
-    }
+    };
 
     this.getDefaultAnimation = function() {
 	return this.animations[this.defaultAnimationName];
-    }
+    };
 
 }
 
@@ -66,5 +65,5 @@ function SpritesheetManager() {
 SpritesheetManager.prototype = new AssetManager();
 SpritesheetManager.prototype.createObject = function() {
     return (new Spritesheet());
-}
+};
 spritesheetManager = new SpritesheetManager();

@@ -1,4 +1,11 @@
 function CollisionManager() {
+    /**
+     * CollisionManager checks occuring collision and reacts to them. 
+     *
+     * Members : 
+     * objects - all objects registered, those we need to test collisions with
+     * actions - map of n1*n2 to a function triggered on collision of n1 & n2
+     */
 
     this.objects = [];
     this.actions = [[],[]];
@@ -31,6 +38,6 @@ function CollisionManager() {
 	var t2 = [];
 	t2[n2] = action;
 	this.actions[n1] = t2;
-    }
+    };
 
 }

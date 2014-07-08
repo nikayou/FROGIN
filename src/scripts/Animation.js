@@ -25,17 +25,19 @@ function Animation() {
 	clip.texture = img;
 	this.defaultAnimationName = this.spritesheet.defaultAnimationName;
 	this.playAnimation( this.defaultAnimationName );
-    }
+    };
 
     this.setSpritesheet = function(s) {
 	this.spritesheet = s;
-    }
+    };
+
     this.setImage = function(i) {
 	clip.texture = i;
-    }
+    };
+
     this.setDefaultAnimationName = function(name) {
 	this.defaultAnimationName = name;
-    }
+    };
 
     this.update = function() {
 	timer += deltaTime;
@@ -54,11 +56,11 @@ function Animation() {
 	    step = this.animation.steps[index];
 	    copyClip(this.spritesheet.clips[step.clip]);
 	}
-    }
+    };
 
     this.draw = function(context, x, y) {
 	clip.draw(context, x, y);
-    }
+    };
 
     this.playAnimation = function(name, looped) {
 	this.animation = this.spritesheet.animations[name];
@@ -67,13 +69,13 @@ function Animation() {
 	index = 0;
 	step = this.animation.steps[index];
 	copyClip(this.spritesheet.clips[step.clip]);
-    }
+    };
 
     var copyClip = function(other) {
 	clip.setPosition(other.x, other.y);
 	clip.setDimension(other.width, other.height);
 	clip.setDelta(other.dx, other.dy);
-    }
+    };
 
 }
 Animation.prototype = new Drawable();

@@ -16,7 +16,7 @@ function startGame(s) {
      * Initializes the game
      */
     game.init(s);
-}
+};
 
 
 /**	

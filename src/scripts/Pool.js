@@ -33,7 +33,7 @@ function Pool() {
 	    u.active = false;
 	    this.units[i] = u;
 	}
-    }
+    };
 
     /**
      * Should be redefined in implementing classes. 
@@ -43,7 +43,7 @@ function Pool() {
 	var r = new Object();
 	r.init(args);
 	return r;
-    }
+    };
 
     /**
      * Activates an object with the given args and returns it.
@@ -58,7 +58,7 @@ function Pool() {
 	    return unit;
 	}
 	return null;
-    }
+    };
     
     /**
      * Reorganises the array to keep separation between active and inactive. 
@@ -66,14 +66,14 @@ function Pool() {
      */
     this.despawn = function(i) {
 	this.units.push((this.units.splice(i,1))[0]);
-    }
+    };
 
     /**
      * Called when an object has just been deactivated.
      */
-    this.resetUnit = function(u, args) {
+    this.resetUnit = function(u) {
 	
-    }
+    };
 
     /**
      * 
@@ -90,5 +90,6 @@ function Pool() {
 		}
 	    }
 	}
-    }
+    };
+
 }

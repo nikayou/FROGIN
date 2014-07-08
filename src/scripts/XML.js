@@ -8,4 +8,4 @@ function readXML(filePath) {
     xmlhttp.send();
     if (xmlhttp.readyState == 4)
 	return xmlhttp.responseXML;
-}
+};

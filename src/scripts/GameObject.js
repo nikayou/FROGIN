@@ -10,8 +10,10 @@ function GameObject() {
     this.init = function(name) {
 	this.name = name;
     };
+
     this.update = function() {
     };
+
     this.clear = function() {
 	if (this.width && this.height) {
 	    // better to work on discrete coordinates
@@ -29,20 +31,25 @@ function GameObject() {
 	    this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 	}
     };
+
     this.draw = function() {
 	this.graphics.draw(this.context, this.x, this.y);
     };
+
     this.drawRelative = function() {
 	this.graphics.draw(this.context, 0, 0);
     };
+
     this.clearAndDraw = function() {
 	this.clear();
 	this.draw();
     };
+
     this.clearAndDrawRelative = function() {
 	this.clear();
 	this.drawRelative();
     };
+
     this.exit = function() {};
 }
 

@@ -34,7 +34,7 @@ function Controller() {
 	events = new Object();
 	this.inputMaps[0] = new InputMap();
 	this.inputMaps[0].init(); 
-    }
+    };
 
     /**
      * Binds an action (string) to an Event (e). 
@@ -43,7 +43,7 @@ function Controller() {
      */
     this.register = function(a, e) {	
 	this.registerOn(a, e, this.inputMaps[0]);
-    }
+    };
 
     /**
      * Binds an action (string) to an Event (e) on the specified inputMap. 
@@ -52,7 +52,7 @@ function Controller() {
      */
     this.registerOn = function(a, e, i) {
 	i.register(a, e);
-    }
+    };
 
     /**
      * Computes and returns all commands to perform, obtained by inputMaps. 
@@ -64,7 +64,7 @@ function Controller() {
 	    commands = commands.concat(this.inputMaps[m].getCommands());
 	}
 	return commands;
-    }
+    };
 
     /**
      * Returns the key name associated to 'e' code (see file Keys.js)
@@ -76,34 +76,36 @@ function Controller() {
 	    return null;
 	}
 	return action;
-    }
+    };
 
     /**
-     * Retrieves the event bound to the matching key, and tells to inputMaps to update
+     * Retrieves the event bound to the matching key, and tells to inputMaps 
+     * to update
      */
     this.updateDown = function(e) {
 	var action = getKeyName(e);
 	for (m in this.inputMaps) {
 	    this.inputMaps[m].updateDown(action);
 	}
-    }
+    };
 
     /**
-     * Retrieves the event bound to the matching key, and tells to inputMaps to update
+     * Retrieves the event bound to the matching key, and tells to inputMaps 
+     * to update
      */
     this.updateUp = function(e) {
 	var action = getKeyName(e);
 	for (m in this.inputMaps) {
 	    this.inputMaps[m].updateUp(action);
 	}
-    }
+    };
 
     /**
      * Cleans all registered events. 
      */
     this.cleanEvents = function() {
 	events = [];
-    }
+    };
 
 }
 
@@ -129,7 +131,7 @@ function Event() {
 
     this.init = function(command) {
 	this.command = command;
-    }
+    };
 
     this.init = function(command, trigger) {
 	this.command = command;
@@ -138,6 +140,6 @@ function Event() {
 	    trigger == TRIGGER_MAINTAIN) {
 	    this.trigger = trigger;
 	} 
-    }    
+    };
 
 }

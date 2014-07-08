@@ -9,11 +9,11 @@ function Sprite() {
      */
     this.init = function(img) {
 	this.texture = img;
-    }
+    };
 
     this.draw = function(context, x, y) {
 	context.drawImage(this.texture, x, y);
-    }
+    };
 }
 Sprite.prototype = new Drawable();
 
@@ -50,20 +50,22 @@ function Clip() {
 			  this.width, this.height,
 			  x - this.dx, y - this.dy, 
 			  this.width, this.height);
-    }
+    };
 
     this.setPosition = function(x, y) {
 	this.x = x;
 	this.y = y;
-    }
+    };
+
     this.setDimension = function(w, h) {
 	this.width = w;
 	this.height = h;
-    }
+    };
+
     this.setDelta = function(x, y) {
 	this.dx = x;
 	this.dy = y;
-    }
+    };
 
     this.toString = function() {
 	var s = "Clip ";
@@ -71,7 +73,7 @@ function Clip() {
 	s += this.width + "*" + this.height + "-";
 	s += this.dx + "," + this.dy;
 	return s;
-    }
+    };
 
 }
 Clip.prototype = new Sprite();

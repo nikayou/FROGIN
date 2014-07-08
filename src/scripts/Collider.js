@@ -8,7 +8,6 @@ function Collider() {
      *
      * Members : 
      * shapeName - name of the shape, to match the irght test
-     *
      */
 
     this.shapeName = "unknown";
@@ -35,17 +34,19 @@ function BoxCollider(x, y, width, height) {
      * x, y - position of the top-left corner
      * width, height - dimensions
      */
-    this.shapeName = "box";
+    BoxCollider.prototype.shapeName = "box";
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+
     this.init = function(x, y, width, height) {
 	this.x = x;
 	this.y = y;
 	this.width = width;
 	this.height = height;
     };
+
     this.collidesWith = function(other) {
 	if (other.shapeName === "box") {
 	    var xGap = this.x - other.x;
@@ -76,15 +77,17 @@ function BoxCollider(x, y, width, height) {
 	}
 	return false;
     };
+
     this.move = function(x, y) {
 	this.x += x;
 	this.y += y;	
-    }
+    };
+
     this.toString = function() {
 	var s = this.shapeName+"-";
 	s += this.x + "," + this.y;
 	s+= " - "+this.width+"x"+this.height;
 	return s;
-    }
+    };
 }
 BoxCollider.prototype = new Collider();

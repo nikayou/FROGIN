@@ -7,15 +7,15 @@ function InputMap () {
 
     this.init = function() {
 	this.events = new Object();
-    }
+    };
 
     this.register = function(a, e) {
 	this.events[a] = e;
-    }
+    };
 
     this.unregister = function(a) {
 	this.events[a] = null;
-    }
+    };
 
     /**
      * Takes an action, and returns the event triggered by this action
@@ -27,7 +27,7 @@ function InputMap () {
 	    }
 	}
 	return null;
-    }
+    };
 
     /**
      * Computes and returns all commands to perform. 
@@ -40,7 +40,7 @@ function InputMap () {
 		commands[commands.length] = this.events[e].command;
 	}
 	return commands;
-    }
+    };
 
     /**
      * Retrieves the event bound to the matching action, and marks it as 
@@ -58,7 +58,7 @@ function InputMap () {
 	    }
 	    event.wasDown = true;
 	}
-    }
+    };
 
     /**
      * Retrieves the event bound to the matching action, and marks it as 
@@ -74,14 +74,13 @@ function InputMap () {
 	     }
 	    event.wasDown = false;
 	}
-    }
+    };
 
     /**
      * Cleans all registered events. 
      */
     this.clean = function() {
 	this.events = [];
-    }
-
+    };
 
 }
