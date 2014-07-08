@@ -39,7 +39,7 @@ function Spritesheet() {
 	    var anim = new Object();
 	    var name = currentA.getAttribute("name");
 	    anim.steps = [];
-	    var steps = xml.getElementsByTagName("step");
+	    var steps = currentA.getElementsByTagName("step");
 	    for (var j=0; j < steps.length; j++) {
 		var currentS = steps[j];
 		var step = new Object();
