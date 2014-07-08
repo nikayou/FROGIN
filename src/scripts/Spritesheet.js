@@ -23,14 +23,13 @@ function Spritesheet() {
 	for (var i=0; i < clips.length; i++) {
 	    var currentC = clips[i];
 	    var clip = new Clip();
-	    var id = currentC.getAttribute("id");
+	    var id = parseInt(currentC.getAttribute("id"));
 	    clip.x = currentC.getAttribute("x");
 	    clip.y = currentC.getAttribute("y");
 	    clip.width = currentC.getAttribute("w");
 	    clip.height = currentC.getAttribute("h");
 	    clip.dx = currentC.getAttribute("dx");
 	    clip.dy = currentC.getAttribute("dy");
-	    // TODO : convert id string to int
 	    this.clips[id] = clip;
 	}
 	var anims = xml.getElementsByTagName("animation");
@@ -43,7 +42,7 @@ function Spritesheet() {
 	    for (var j=0; j < steps.length; j++) {
 		var currentS = steps[j];
 		var step = new Object();
-		step.clip = currentS.getAttribute("clip");
+		step.clip = parseInt(currentS.getAttribute("clip"));
 		step.duration = currentS.getAttribute("duration");
 		anim.steps[anim.steps.length] = step;
 	    }
