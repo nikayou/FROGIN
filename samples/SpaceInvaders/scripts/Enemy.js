@@ -15,7 +15,7 @@ function Enemy() {
 	this.collider = new BoxCollider();
 	this.collider.init(x, y, 32, 32);
 	this.level = -1;
-	this.graphics = new Animation();
+	this.graphics  = new Animation();
 	this.changeLevel(lvl);
 	this.health = this.level;
     }
@@ -28,7 +28,6 @@ function Enemy() {
 	    var sprt = new Spritesheet();
 	    sprt.loadFromFile("assets/spritesheets/enemy"+lvl+".xml");
 	    this.graphics.init(sprt, imageHolder.spritesheet);
-	    this.graphics.playAnimation("move", true);
 	}
     }
     this.move = function(x, y) {

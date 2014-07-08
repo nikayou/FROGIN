@@ -43,13 +43,12 @@ function Animation() {
 	    timer -= step.duration;
 	    index++;
 	    if (index >= this.animation.steps.length) {
-		// when animation is over, switch to another animation
-		if (loop) {
-		    index = 0;
-		} else {
-		    var oldtime = timer;
-		    this.playAnimation(this.defaultAnimationName, true);
-		    timer = oldtime;
+		// when animation is over, switch to another animation		
+		index = 0;
+		if (!loop) {
+		    var def = this.defaultAnimationName;
+		    this.animation = this.spritesheet.animations[def];
+		    loop = true;
 		}
 	    }
 	    step = this.animation.steps[index];
