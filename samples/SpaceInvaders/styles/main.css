@@ -12,3 +12,13 @@ canvas, #canvas, .canvas{
 #canvas_background{
     z-index:0;
 }
+
+#fps{
+    z-index:4;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    color: #ff0055;
+    font-family: Arial;
+    cursor: default;
+}

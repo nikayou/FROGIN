@@ -167,12 +167,16 @@ function Level() {
 	this.player.update();
 	this.enemies.update();
 	this.collisionManager.update();
+	document.getElementById("fps").innerHTML = "dt: "+deltaTime;
+	this.draw();
     };
 
     this.draw = function() {
 	// should be called only when its required to redraw the whole scene
-	this.background.draw();
-	this.player.draw();
+//	this.background.draw();
+//	this.player.draw();
+//	this.canvas_background.getContext("2d").font="20px Arial";
+//	this.canvas_background.getContext("2d").fillText(document.getElementById("fps").innerHTML, 20, 20);
 	
     };
 
