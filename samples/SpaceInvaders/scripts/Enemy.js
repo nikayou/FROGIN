@@ -105,8 +105,8 @@ function Wave() {
      */
 
     this.init = function() {
-	this.speedX = 1;
-	this.speedY = 1;
+	this.speedX = 64;
+	this.speedY = 64;
 	this.forward = false;
 	this.prev = 0;
 	this.pool = new EnemyPool();
@@ -140,14 +140,14 @@ function Wave() {
 	(function(){
 	    this.pool.units[0].clear();
 	    this.pool.update();
-	    // TODO : consider deltaTime
 	    if (this.forward){
-		this.pool.moveAll(0, this.speedY);	
-		this.prev += this.speedY;
+		var speedYdelta = this.speedY * deltaTime;
+		this.pool.moveAll(0, speedYdelta);	
+		this.prev += speedYdelta;
 		if (this.prev >= FORWARD_STEP) {
 		    this.forward = false;
 		}
-	    } else if (this.pool.moveAll(this.speedX, 0) ) {
+	    } else if (this.pool.moveAll(this.speedX * deltaTime, 0) ) {
  		this.forward = true;
 		this.prev = 0;
 		this.speedX = -this.speedX;	    
