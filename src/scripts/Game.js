@@ -47,7 +47,7 @@ function loop() {
     requestAnimFrame(loop);
 }
 
-var deltaTime = 0;
+var deltaTime = 0.0;
 
 function Game() {
     /**
@@ -67,7 +67,7 @@ function Game() {
 	this.scene.update();
     };
 
-    var previous;
+    var previous = new Date;
     var updateDeltaTime = function() {
 	var now = new Date;
 	deltaTime = (now-previous)/1000;

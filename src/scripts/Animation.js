@@ -38,7 +38,7 @@ function Animation() {
     }
 
     this.update = function() {
-	timer += 1.0/60.0;
+	timer += deltaTime;
 	while (timer >= step.duration) {    
 	    timer -= step.duration;
 	    index++;
