@@ -4,10 +4,10 @@
  * 
  * Variables : 
  * game - current instance of the game
- * imageHolder - image manager, loading required images
+ * textureManager - image manager, loading required images
  * deltaTime - time elapsed since last frame
  */
-
+include(scriptsPath+"Core/AssetManager.js");
 
 var game = new Game();
 

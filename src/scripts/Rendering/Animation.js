@@ -1,3 +1,6 @@
+include(scriptsPath+"Rendering/Clip.js");
+include(scriptsPath+"Rendering/Drawable.js");
+
 function Animation() {
     /**
      * Animation makes the link between an image and a spritesheet. 

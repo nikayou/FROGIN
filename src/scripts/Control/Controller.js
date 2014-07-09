@@ -1,3 +1,6 @@
+include(scriptsPath+"Control/Keys.js");
+include(scriptsPath+"Control/InputMap.js");
+
 function Controller() {
     /**
      * Controller manages Event and commands.  

@@ -1,3 +1,6 @@
+include(scriptsPath+"Rendering/Clip.js");
+include(scriptsPath+"Core/AssetManager.js");
+
 function Spritesheet() {
     /**
      * Spritesheet hold information about graphics : clips, and animations.

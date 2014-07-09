@@ -1,3 +1,5 @@
+include("../../src/scripts/Collision/Collider.js");
+
 function CollisionManager() {
     /**
      * CollisionManager checks occuring collision and reacts to them. 
