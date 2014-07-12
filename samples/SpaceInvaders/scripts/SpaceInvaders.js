@@ -1,8 +1,8 @@
-include("scripts/Background.js");
-include("scripts/Bullet.js");
-include("scripts/Player.js");
-include("scripts/Enemy.js");
-include("scripts/Level.js");
+include("scripts/Objects/Background.js");
+include("scripts/Objects/Bullet.js");
+include("scripts/Objects/Player.js");
+include("scripts/Objects/Enemy.js");
+include("scripts/Objects/Level.js");
 
 var start = function() {
     game.init(new Level());
