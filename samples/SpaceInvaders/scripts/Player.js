@@ -1,3 +1,6 @@
+include(scriptsPath+"Core/GameObject.js");
+include(scriptsPath+"Rendering/Clip.js");
+
 function Player() {
     /**
      * Player represents the player's ship.

@@ -5,32 +5,17 @@
     <title>Space Invaders</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css" />
-
+    <script src="../../src/scripts/Core/Include.js"></script>
+    <!-- define frameworks scripts' path -->
+    <script type="text/JavaScript">
+      var scriptsPath="../../src/scripts/";
+      include(scriptsPath+"FROG.js");
       <!-- include framework -->
-      <script src="../../src/scripts/Extra/AssetManager.js"></script>
-      <script src="../../src/scripts/Extra/XML.js"></script>
-      <script src="../../src/scripts/Rendering/Drawable.js"></script>
-      <script src="../../src/scripts/Rendering/Spritesheet.js"></script>
-      <script src="../../src/scripts/Rendering/Sprite.js"></script>
-      <script src="../../src/scripts/Rendering/Animation.js"></script>
-      <script src="../../src/scripts/Control/Keys.js"></script>
-      <script src="../../src/scripts/Control/InputMap.js"></script>
-      <script src="../../src/scripts/Control/Controller.js"></script>
-      <script src="../../src/scripts/Collision/Collider.js"></script>  
-      <script src="../../src/scripts/Collision/CollisionManager.js"></script>
-      <script src="../../src/scripts/Core/GameObject.js"></script>
-      <script src="../../src/scripts/Extra/Pool.js"></script>
-      <script src="../../src/scripts/Core/Scene.js"></script>
-      <script src="../../src/scripts/Core/Game.js"></script>
-      <!-- include game-specific files -->
-      <script src="scripts/Background.js"></script>
-      <script src="scripts/Bullet.js"></script>
-      <script src="scripts/Enemy.js"></script>
-      <script src="scripts/Player.js"></script>
-      <script src="scripts/Level.js"></script>
-      <script src="scripts/SpaceInvaders.js"></script>
-      <!-- end of scripts inclusion -->
-
+      include(scriptsPath+"Rendering/Drawable.js");
+      include(scriptsPath+"Rendering/Sprite.js");
+    </script>
+    <script src="../../src/scripts/Core/GameObject.js" language="JavaScript" type="text/JavaScript"></script>
+    <script src="../../src/scripts/Extra/Pool.js" language="JavaScript" type="text/JavaScript"></script>
   </head>
 
   <body onload="start()">
@@ -41,6 +26,12 @@
       <canvas id="canvas_bullets" width="800" height="600"></canvas>
     </div>
     <div id="fps" style="color:#ff00ff">fps:</div>
-  </body>
 
+    <script src="scripts/Background.js"></script>
+    <script src="scripts/Bullet.js"></script>
+    <script src="scripts/Enemy.js"></script>
+    <script src="scripts/Player.js"></script>
+    <script src="scripts/Level.js"></script>
+    <script src="scripts/SpaceInvaders.js"></script>
+  </body>
 </html>

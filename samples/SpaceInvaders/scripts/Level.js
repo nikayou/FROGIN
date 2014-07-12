@@ -1,3 +1,5 @@
+include("scripts/Bullet.js");
+
 function Scene() {
     /**
      * Scene is a state of a game. Only the current state is handled by the 

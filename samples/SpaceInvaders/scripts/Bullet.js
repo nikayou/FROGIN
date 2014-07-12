@@ -1,3 +1,6 @@
+include(scriptsPath+"Collision.js");
+include(scriptsPath+"Extra/Pool.js");
+
 function Bullet() {
     /**
      * Bullet represents a bullet : ally or enemy

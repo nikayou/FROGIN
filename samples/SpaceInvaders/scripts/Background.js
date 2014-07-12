@@ -1,3 +1,5 @@
+include(scriptsPath+"Core/GameObject.js");
+
 function Background() {
     /**
      * Background is the bottom layer of levels. 
