@@ -1,3 +1,11 @@
+body{
+    margin: 0px;
+}
+
+#canvases {
+    position: relative;
+}
+
 canvas, #canvas, .canvas{
     background: transparent;
     position: absolute;
@@ -14,11 +22,25 @@ canvas, #canvas, .canvas{
 }
 
 #fps{
+    display: none;
     z-index:4;
     position: absolute;
     top: 0px;
     left: 10px;
     color: #ff0055;
+    font-family: Arial;
+    cursor: default;
+}
+
+.gui{
+    z-index:4;
+    position: absolute;
+    margin: 0px;
+    top: 0px;
+    background: black;
+    border: 1px solid gray;
+    padding: 3px;
+    color: white;
     font-family: Arial;
     cursor: default;
 }

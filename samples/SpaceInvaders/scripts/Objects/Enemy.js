@@ -1,3 +1,5 @@
+include("scripts/GUI.js");
+
 function Enemy() {
     /**
      * Enemy represents an enemy
@@ -56,6 +58,7 @@ function Enemy() {
 	this.health = lvl;
     }
     this.kill = function() {
+	updateScore(1);
 	this.reset(0, 0, 0);
 	this.active = 0;
     }
