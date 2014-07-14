@@ -1,5 +1,6 @@
 body{
     margin: 0px;
+    position: absolute;
 }
 
 #canvases {
@@ -33,14 +34,33 @@ canvas, #canvas, .canvas{
 }
 
 .gui{
-    z-index:4;
-    position: absolute;
+    z-index: 4;
     margin: 0px;
+    position: absolute;
+    cursor: default;
+}
+
+#gui-container{
+    width: 800px;
+    height: 600px;
+}
+
+.gui-box{
     top: 0px;
     background: black;
     border: 1px solid gray;
     padding: 3px;
     color: white;
     font-family: Arial;
-    cursor: default;
+}
+
+.prompt{
+    background: white;
+    border: 3px solid gray;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#waves {
+    right: 0px;
 }

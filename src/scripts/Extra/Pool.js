@@ -7,6 +7,7 @@ function Pool() {
      * MAX_UNITS - maximum number of objects that can be present at the same 
      *             time
      * units - array containing all objects with a state : active/inactive
+     * isActive - set to "false" when all elements are inactive
      *
      * How it works : 
      * creation of objects is a long task, so we prefer to do it at the 
@@ -18,6 +19,7 @@ function Pool() {
      * simply a new unit with given args
      */
     var MAX_UNITS = 0;
+    var isActive = false;
     this.units = [];
 
     /**
@@ -79,8 +81,10 @@ function Pool() {
      * 
      */
     this.update = function() {
+	isActive = false;
 	for (var i = 0; i < MAX_UNITS; i++) {
 	    if (this.units[i].active) {
+		isActive = true;
 		if (this.units[i].update()) {
 		    this.units[i].draw();
 		} else {
@@ -91,5 +95,9 @@ function Pool() {
 	    }
 	}
     };
+
+    this.isActive = function() {
+	return isActive;
+    }
 
 }

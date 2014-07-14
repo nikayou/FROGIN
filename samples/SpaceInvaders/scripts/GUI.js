@@ -16,6 +16,5 @@ var updateWaves = function(v) {
 	score += v;
     }
     wavesTag.innerHTML = "waves: "+waves;
-    wavesTag.style.left = (800-wavesTag.offsetWidth)+"px";
 }
 

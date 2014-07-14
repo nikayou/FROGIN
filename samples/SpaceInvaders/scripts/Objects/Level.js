@@ -168,6 +168,9 @@ function Level() {
 	this.bullets.update();
 	this.player.update();
 	this.enemies.update();
+	if (this.enemies.state == 'dead') {
+	    nextWave();
+	}
 	this.collisionManager.update();
 	document.getElementById("fps").innerHTML = "dt: "+deltaTime;
 	this.draw();
@@ -181,6 +184,26 @@ function Level() {
 	this.player.exit();
 	this.background.exit();
     };
+
+    var wait = false;
+    var nextWave = function() {
+	if (!wait) {
+	    wait = true;
+	    var gui = document.getElementById('gui-container');
+	    var next = document.createElement('p');
+	    next.className= "gui prompt";
+	    next.innerHTML = "Finished wave. Press Space to continue, S to save. ";
+	    gui.appendChild(next);
+	    // centering it
+	    next.style.left = (400-(next.offsetWidth/2))+"px";
+	    next.style.top = (300-(next.offsetHeight/2))+"px";
+	   /* next.style.left = "50%";
+	    next.style.top = "50%";*/
+	    console.log("dimensions : "+next.clientWidth+"x"+next.offsetHeight);
+	    console.log("prompt at "+next.style.top+","+next.style.left);
+	}
+    };
+
 
 }
 Level.prototype = new Scene();
