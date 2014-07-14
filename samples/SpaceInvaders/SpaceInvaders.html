@@ -5,17 +5,16 @@
     <title>Space Invaders</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" media="screen" href="styles/main.css" />
+    <!-- including "include" code -->
     <script src="../../src/scripts/Core/Include.js"></script>
-    <!-- define frameworks scripts' path -->
+    <!-- define frameworks scripts' path and include all library -->
     <script type="text/JavaScript">
       var scriptsPath="../../src/scripts/";
       include(scriptsPath+"FROG.js");
-      <!-- include framework -->
-      include(scriptsPath+"Rendering/Drawable.js");
-      include(scriptsPath+"Rendering/Sprite.js");
+      <!-- without the following 2 lines, it won't work -->
+      include(scriptsPath+"Core/GameObject.js");
+      include(scriptsPath+"Extra/Pool.js");
     </script>
-    <script src="../../src/scripts/Core/GameObject.js" language="JavaScript" type="text/JavaScript"></script>
-    <script src="../../src/scripts/Extra/Pool.js" language="JavaScript" type="text/JavaScript"></script>
   </head>
 
   <body onload="start()">
@@ -25,13 +24,11 @@
       <canvas id="canvas_ally" width="32" height="32"></canvas>
       <canvas id="canvas_bullets" width="800" height="600"></canvas>
     </div>
-    <div id="fps" style="color:#ff00ff">fps:</div>
-
-    <script src="scripts/Background.js"></script>
-    <script src="scripts/Bullet.js"></script>
-    <script src="scripts/Enemy.js"></script>
-    <script src="scripts/Player.js"></script>
-    <script src="scripts/Level.js"></script>
+    <div id="gui-container" class="gui">
+      <p id="score" class="gui gui-box">score: 0</p>
+      <p id="waves" class="gui gui-box">waves: 0</p> 
+    </div>   
+    <div id="fps">fps:</div>
     <script src="scripts/SpaceInvaders.js"></script>
   </body>
 </html>

@@ -110,9 +110,24 @@ function Level() {
 	var right = new Event();
 	right.init(function(){this.player.move(A_SPEED);},
 		   TRIGGER_MAINTAIN);
-	this.controller.register("space", event);
-	this.controller.register("left", left);
-	this.controller.register("right", right);
+	var save = new Event();
+	save.init(function(){saveProgresses();},
+		  TRIGGER_PRESS);
+	var cont = new Event();
+	cont.init(function(){continueGame();}, TRIGGER_RELEASE);
+	var saveInput = new InputMap();
+	var gameInput = new InputMap();
+	saveInput.init();
+	saveInput.register("s", save);
+	saveInput.register("space", cont);
+	gameInput.init();
+	gameInput.register("space", event);
+	gameInput.register("left", left);
+	gameInput.register("right", right);
+	this.controller.addInputMap(gameInput, 0);
+	this.controller.addInputMap(saveInput, 1);
+	this.controller.enable(0);
+	this.controller.disable(1);
     };
 
     this.loadAssets = function() {
@@ -168,6 +183,9 @@ function Level() {
 	this.bullets.update();
 	this.player.update();
 	this.enemies.update();
+	if (this.enemies.state == 'dead') {
+	    nextWave.apply(this);
+	}
 	this.collisionManager.update();
 	document.getElementById("fps").innerHTML = "dt: "+deltaTime;
 	this.draw();
@@ -180,6 +198,33 @@ function Level() {
     this.exit = function() {
 	this.player.exit();
 	this.background.exit();
+    };
+
+    var wait = false;
+    var nextWave = function() {
+	if (!wait) {
+	    wait = true;
+	    var gui = document.getElementById('gui-container');
+	    var next = document.createElement('p');
+	    next.className= "gui prompt";
+	    next.innerHTML = "Finished wave. Press Space to continue, S to save. ";
+	    gui.appendChild(next);
+	    // centering it
+	    next.style.left = (400-(next.offsetWidth/2))+"px";
+	    next.style.top = (300-(next.offsetHeight/2))+"px";
+	    this.controller.disable(0);
+	    this.controller.enable(1);
+	}
+    };
+
+    var saveProgresses = function() {
+	alert("saving...");
+    };
+
+    var continueGame = function() {
+	alert("continuing game...");
+	this.controller.enable(0);
+	this.controller.disable(1);
     };
 
 }

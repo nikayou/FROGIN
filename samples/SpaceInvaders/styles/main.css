@@ -1,3 +1,12 @@
+body{
+    margin: 0px;
+    position: absolute;
+}
+
+#canvases {
+    position: relative;
+}
+
 canvas, #canvas, .canvas{
     background: transparent;
     position: absolute;
@@ -14,6 +23,7 @@ canvas, #canvas, .canvas{
 }
 
 #fps{
+    display: none;
     z-index:4;
     position: absolute;
     top: 0px;
@@ -21,4 +31,36 @@ canvas, #canvas, .canvas{
     color: #ff0055;
     font-family: Arial;
     cursor: default;
+}
+
+.gui{
+    z-index: 4;
+    margin: 0px;
+    position: absolute;
+    cursor: default;
+}
+
+#gui-container{
+    width: 800px;
+    height: 600px;
+}
+
+.gui-box{
+    top: 0px;
+    background: black;
+    border: 1px solid gray;
+    padding: 3px;
+    color: white;
+    font-family: Arial;
+}
+
+.prompt{
+    background: white;
+    border: 3px solid gray;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#waves {
+    right: 0px;
 }
