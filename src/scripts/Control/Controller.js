@@ -49,13 +49,44 @@ function Controller() {
     };
 
     /**
-     * Binds an action (string) to an Event (e) on the specified inputMap. 
+     * Binds an action (string) to an Event (e) on the specified inputMap index. 
      * When the key matching the action is involved in an input, 
      * the event's command will be triggered. 
      */
     this.registerOn = function(a, e, i) {
-	i.register(a, e);
+	this.inputMaps[i].register(a, e);
     };
+
+    /**
+     * Adds the given input map at the given index (new one if unspecified)
+     */
+    this.addInputMap = function(m, i) {
+	var map = null;
+	if (i) {
+	    if (i >= this.inputMaps.length) {
+		this.inputMaps[i] = new InputMap();
+	    }
+	    map = this.inputMaps[i];
+	} else {
+	    map = this.inputMaps[this.inputMaps.length];
+	}
+	for (a in m.events) {
+	    this.inputMaps[i].register(a, m.events[a]);
+	}
+    }
+
+    /**
+     * Replaces an input map at the given index. If no index given, a new one is added
+     */
+    /** TODO: not working (events are not detected)
+    this.setInputMap = function(m, i) {
+	if (i) {
+	    this.inputMaps[i] = m;
+	} else {
+	    this.inputMaps[this.inputMaps.length] = m;
+	}
+    }
+    */
 
     /**
      * Computes and returns all commands to perform, obtained by inputMaps. 
@@ -108,6 +139,20 @@ function Controller() {
      */
     this.cleanEvents = function() {
 	events = [];
+    };
+
+    /**
+     * Enables the input map at the given index
+     */
+    this.enable = function(i) {
+	this.inputMaps[i].enable();
+    };
+
+    /**
+     * Enables the input map at the given index
+     */
+    this.disable = function(i) {
+	this.inputMaps[i].disable();
     };
 
 }

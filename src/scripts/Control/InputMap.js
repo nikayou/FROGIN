@@ -3,6 +3,8 @@ function InputMap () {
      * InputMap holds a map< Action -> Event >
      */
 
+    var enabled = true; // tells if this is active
+
     this.events = {};
 
     this.init = function() {
@@ -10,6 +12,7 @@ function InputMap () {
     };
 
     this.register = function(a, e) {
+	console.log("registering "+this);
 	this.events[a] = e;
     };
 
@@ -21,9 +24,11 @@ function InputMap () {
      * Takes an action, and returns the event triggered by this action
      */
     this.getEvent = function(a) {
-	for (e in this.events) {
-	    if (e == a) {
-		return this.events[e];
+	if (enabled) {
+	    for (e in this.events) {
+		if (e == a) {
+		    return this.events[e];
+		}
 	    }
 	}
 	return null;
@@ -35,10 +40,13 @@ function InputMap () {
      */
     this.getCommands = function() {
 	var commands = [];
-	for (e in this.events) {
-	    if (this.events[e].isPerformed)
-		commands[commands.length] = this.events[e].command;
+	if (enabled) {
+	    for (e in this.events) {
+		if (this.events[e].isPerformed)
+		    commands[commands.length] = this.events[e].command;
+	    }
 	}
+//	console.log("commands: "+commands.length+"/"+this.events.length);
 	return commands;
     };
 
@@ -81,6 +89,18 @@ function InputMap () {
      */
     this.clean = function() {
 	this.events = [];
+    };
+
+    this.enable = function() {
+	enabled = true;
+    };
+
+    this.disable = function() {
+	enabled = false;
+    };
+
+    this.switchState = function() {
+	enabled = !enabled;
     };
 
 }
