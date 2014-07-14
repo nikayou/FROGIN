@@ -111,10 +111,10 @@ function Level() {
 	right.init(function(){this.player.move(A_SPEED);},
 		   TRIGGER_MAINTAIN);
 	var save = new Event();
-	save.init(function(){saveProgresses();},
+	save.init(function(){saveProgresses.call(this);},
 		  TRIGGER_PRESS);
 	var cont = new Event();
-	cont.init(function(){continueGame();}, TRIGGER_RELEASE);
+	cont.init(function(){continueGame.call(this);}, TRIGGER_RELEASE);
 	var saveInput = new InputMap();
 	var gameInput = new InputMap();
 	saveInput.init();
@@ -175,6 +175,7 @@ function Level() {
 
     this.update = function() {
 	Level.prototype.update();
+	console.log("update");
 	var commands = this.controller.getCommands();
 	for (var i = 0; i < commands.length; i++) {
 	    commands[i].call(this);
@@ -218,7 +219,10 @@ function Level() {
     };
 
     var saveProgresses = function() {
-	alert("saving...");
+	console.log("saving");
+	this.controller.disable(1);
+	download("save.json", getSaveState.call(this));
+	this.controller.enable(1);
     };
 
     var continueGame = function() {
@@ -229,3 +233,28 @@ function Level() {
 
 }
 Level.prototype = new Scene();
+
+function download(filename, data) {
+    var a = window.document.createElement('a');
+    a.href = window.URL.createObjectURL(new Blob([data], {type: 'text/json'}));
+    a.download = filename;
+
+    // Append anchor to body.
+    document.body.appendChild(a)
+    a.click();
+
+    // Remove anchor from body
+    document.body.removeChild(a)
+    console.log("opening prompt");
+}
+
+function getSaveState() {
+    var output = {
+	"score":score, 
+	"waves":waves, 
+	"previousWaves": "351204", 
+	"health":this.player.health
+    };
+    return JSON.stringify(output);
+
+}

@@ -14,6 +14,7 @@ function Player() {
 	this.name = name;
 	this.x = x;
 	this.y = y;
+	this.health = 4;
 	this.graphics = new Clip();
 	this.graphics.init(textureManager.get("spritesheet"), 
 			   128, 96, 
