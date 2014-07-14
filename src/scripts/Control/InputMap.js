@@ -9,10 +9,10 @@ function InputMap () {
 
     this.init = function() {
 	this.events = new Object();
+	enabled = true;
     };
 
     this.register = function(a, e) {
-	console.log("registering "+this);
 	this.events[a] = e;
     };
 
@@ -24,11 +24,9 @@ function InputMap () {
      * Takes an action, and returns the event triggered by this action
      */
     this.getEvent = function(a) {
-	if (enabled) {
-	    for (e in this.events) {
-		if (e == a) {
-		    return this.events[e];
-		}
+	for (e in this.events) {
+	    if (e == a) {
+		return this.events[e];
 	    }
 	}
 	return null;
@@ -46,7 +44,6 @@ function InputMap () {
 		    commands[commands.length] = this.events[e].command;
 	    }
 	}
-//	console.log("commands: "+commands.length+"/"+this.events.length);
 	return commands;
     };
 
@@ -55,16 +52,18 @@ function InputMap () {
      * "performed" if the trigger matches. 
      */
     this.updateDown = function(a) {
-	var event = this.getEvent(a);
-	if (event != null) {
-	    if (  event.trigger == TRIGGER_MAINTAIN ||
-		  (event.trigger == TRIGGER_PRESS 
-		   && (!event.wasDown)) ) {
-		event.isPerformed = true;
-	    } else {
-		event.isPerformed = false;
+	if (enabled) {
+	    var event = this.getEvent(a);
+	    if (event != null) {
+		if (  event.trigger == TRIGGER_MAINTAIN ||
+		      (event.trigger == TRIGGER_PRESS 
+		       && (!event.wasDown)) ) {
+		    event.isPerformed = true;
+		} else {
+		    event.isPerformed = false;
+		}
+		event.wasDown = true;
 	    }
-	    event.wasDown = true;
 	}
     };
 
@@ -73,14 +72,16 @@ function InputMap () {
      * "performed" if the trigger matches. 
      */
     this.updateUp = function(a) {
-	var event = this.getEvent(a);
-	if (event != null) {
-	     if (event.trigger == TRIGGER_RELEASE) {
-		 event.isPerformed = true;
-	     }else{
-		 event.isPerformed = false;
-	     }
-	    event.wasDown = false;
+	if (enabled) {
+	    var event = this.getEvent(a);
+	    if (event != null) {
+		if (event.trigger == TRIGGER_RELEASE) {
+		    event.isPerformed = true;
+		}else{
+		    event.isPerformed = false;
+		}
+		event.wasDown = false;
+	    }
 	}
     };
 
@@ -97,10 +98,10 @@ function InputMap () {
 
     this.disable = function() {
 	enabled = false;
+	for (e in this.events) {
+		this.events[e].isPerformed = false;
+	}
     };
 
-    this.switchState = function() {
-	enabled = !enabled;
-    };
 
 }
