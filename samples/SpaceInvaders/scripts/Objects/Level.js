@@ -48,7 +48,8 @@ function Level() {
 	this.bullets.init(32, [-20, -20, 0]);
 	this.enemies = new Wave();
 	this.enemies.init();
-	this.enemies.spawn(PATTERNS[0]);
+	// TODO : random ?
+	this.enemies.spawnWave(PATTERNS[0]);
 	// init controller
 	this.controller = new Controller();
 	this.controller.init(this);
@@ -90,7 +91,7 @@ function Level() {
 	 */
 	document.addEventListener("keydown", callDown.apply(this)(), false);
 	document.addEventListener("keyup", callUp.apply(this)(), false);
-	var spaceAction = (function(){ 
+	var shoot = (function(){ 
 	    var last = new Date();
 	    return function() {
 		var now = new Date();
@@ -103,7 +104,7 @@ function Level() {
 		}
 	    } })();
 	var event = new Event();
-	event.init(spaceAction, TRIGGER_MAINTAIN);
+	event.init(shoot, TRIGGER_MAINTAIN);
 	var left = new Event();
 	left.init(function(){this.player.move(-A_SPEED);}, 
 		  TRIGGER_MAINTAIN);
@@ -111,10 +112,10 @@ function Level() {
 	right.init(function(){this.player.move(A_SPEED);},
 		   TRIGGER_MAINTAIN);
 	var save = new Event();
-	save.init(function(){saveProgresses();},
+	save.init(function(){this.saveProgresses();},
 		  TRIGGER_PRESS);
 	var cont = new Event();
-	cont.init(function(){continueGame();}, TRIGGER_RELEASE);
+	cont.init(function(){this.continueGame();}, TRIGGER_RELEASE);
 	var saveInput = new InputMap();
 	var gameInput = new InputMap();
 	saveInput.init();
@@ -207,6 +208,7 @@ function Level() {
 	    var gui = document.getElementById('gui-container');
 	    var next = document.createElement('p');
 	    next.className= "gui prompt";
+	    next.id = "";
 	    next.innerHTML = "Finished wave. Press Space to continue, S to save. ";
 	    gui.appendChild(next);
 	    // centering it
@@ -217,12 +219,12 @@ function Level() {
 	}
     };
 
-    var saveProgresses = function() {
+    this.saveProgresses = function() {
 	alert("saving...");
     };
 
-    var continueGame = function() {
-	alert("continuing game...");
+    this.continueGame = function() {
+	
 	this.controller.enable(0);
 	this.controller.disable(1);
     };
