@@ -7,7 +7,7 @@
  * textureManager - image manager, loading required images
  * deltaTime - time elapsed since last frame
  */
-include(scriptsPath+"Core/AssetManager.js");
+include(scriptsPath+"Core/TextureManager.js");
 
 var game = new Game();
 
@@ -91,23 +91,3 @@ function Game() {
     };
 }
 
-
-
-function TextureManager() {
-}
-TextureManager.prototype = new AssetManager();
-TextureManager.prototype.createObject = function() {
-    var obj = new Image();
-    return obj;
-}
-TextureManager.prototype.loadFromFile = function(filePath) {
-    var obj = this.createObject();
-    obj.src = filePath;    
-    this.assets[filePath] = obj;
-}
-TextureManager.prototype.loadWithID = function(filePath, id) {
-    var obj = this.createObject();
-    obj.src = filePath;    
-    this.assets[id] = obj;
-}
-var textureManager = new TextureManager();
