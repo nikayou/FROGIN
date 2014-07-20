@@ -36,6 +36,9 @@ function Level() {
      * bullets - array containing the bullets
      * canvas_* - different canvases to display
      */
+
+    var wait = false; // when the prompt is waiting for an input
+
     this.init = function() {
 	this.loadAssets();
 	this.initRenderer();
@@ -72,6 +75,10 @@ function Level() {
 	for (i in units) {	    
 	    this.collisionManager.addObject( units[i]);
 	}
+	var endPrompt = document.getElementById("endWave");
+	endPrompt.style.left = (400-(endPrompt.offsetWidth/2))+"px";
+	endPrompt.style.top = (300-(endPrompt.offsetHeight/2))+"px";
+	document.getElementById("endWave").style.display = "none";
 	/*
 	 * The two following functions are necessary because otherwise, 
 	 * "controller.updateDown" is called with the Window as context.
@@ -184,8 +191,13 @@ function Level() {
 	this.bullets.update();
 	this.player.update();
 	this.enemies.update();
-	if (this.enemies.state == 'dead') {
-	    nextWave.apply(this);
+	if (this.enemies.state == 'dead' && !wait) {
+	    // end of a wave
+	    waves++;
+	    document.getElementById("endWave").style.display = "block";
+	    this.controller.disable(0);
+	    this.controller.enable(1);
+	    wait = true;
 	}
 	this.collisionManager.update();
 	document.getElementById("fps").innerHTML = "dt: "+deltaTime;
@@ -200,33 +212,18 @@ function Level() {
 	this.player.exit();
 	this.background.exit();
     };
-
-    var wait = false;
-    var nextWave = function() {
-	if (!wait) {
-	    wait = true;
-	    var gui = document.getElementById('gui-container');
-	    var next = document.createElement('p');
-	    next.className= "gui prompt";
-	    next.id = "";
-	    next.innerHTML = "Finished wave. Press Space to continue, S to save. ";
-	    gui.appendChild(next);
-	    // centering it
-	    next.style.left = (400-(next.offsetWidth/2))+"px";
-	    next.style.top = (300-(next.offsetHeight/2))+"px";
-	    this.controller.disable(0);
-	    this.controller.enable(1);
-	}
-    };
-
+  
     this.saveProgresses = function() {
 	alert("saving...");
     };
 
     this.continueGame = function() {
-	
+	console.log("not display");
+	document.getElementById("endWave").style.display = "none";
+	this.enemies.newWave();
 	this.controller.enable(0);
 	this.controller.disable(1);
+//	wait = false;
     };
 
 }

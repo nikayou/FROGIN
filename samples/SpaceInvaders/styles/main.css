@@ -41,6 +41,7 @@ canvas, #canvas, .canvas{
 }
 
 #gui-container{
+    position: relative;
     width: 800px;
     height: 600px;
 }

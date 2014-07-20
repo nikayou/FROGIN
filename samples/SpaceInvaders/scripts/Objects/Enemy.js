@@ -88,6 +88,8 @@ Enemy.prototype = new GameObject();
  * "|" - new line
  */
 PATTERNS_RAW = [
+"180-400:0001100",
+"180-400:000001100",
 "180-200:44444444444|33333333333|22222222222|11111111111|11111111111", 
 "64-32:00000400000400000|00000000000000000|00400000400000400|03030003030003030|20202020202020202|00000000000000000|12121012121012121|11111011111011111", 
 "180-0:00001410000|00010001000|00102220100|01020302010|10203430201|40234443204|10203430201|01020302010|00102220100|00010001000|00001410000", 
@@ -151,14 +153,22 @@ function Wave() {
 	(function(){
 	    this.pool.units[0].clear();
 	    this.pool.update();
-	    // checking for a living unit
-	    if (!this.pool.isActive()) {
+	    // checking for a living unit	  
+	    var n = 0;
+	    for (i in this.pool.units) {
+		if (this.pool.units[i].active) {
+		    n++;
+		    break;
+		}
+	    }
+	    if (n == 0) {
 		reset.apply(this);
 		return;
 	    }
+	    
+	    //
 	    if (state == 'birth') {
 		if (this.pool.units[0].y >= PATTERNS[patternIndex].y) {
-		    console.log("born! ("+this.prev+"/"+PATTERNS[patternIndex].y);
 		    state = 'living';
 		} else {
 		    var speedYdelta = this.speedY * deltaTime;
@@ -206,17 +216,16 @@ function Wave() {
     }
 
     this.spawnWave = function(pattern) {
-	console.log("spawnin wave "+pattern);
 	var x = pattern.x;
 	var y = -40 * (pattern.enemies.length+1);
-	console.log("target: "+y);
 	var lines = pattern.enemies;
 	for (i in lines) {
 //	    console.log("lines : "+i+"("+lines+")");
 	    var line = pattern.enemies[i];
 	    for (j in line) {
 //		console.log("spawning : "+i+','+j);
-		this.pool.spawn([x, y, line[j]]);
+		if (line[j] > 0)
+		    this.pool.spawn([x, y, line[j]]);
 		x += 40;
 	    }	    
 	    x = 0 + pattern.x;
@@ -232,8 +241,7 @@ function Wave() {
 	}
 	var pattern = PATTERNS[patternIndex];
 	state = 'birth';
-	spawnWave(pattern);
-	
+	this.spawnWave(pattern);	
     }
     
     var reset = function() {
