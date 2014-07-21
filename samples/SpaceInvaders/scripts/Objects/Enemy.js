@@ -88,8 +88,6 @@ Enemy.prototype = new GameObject();
  * "|" - new line
  */
 PATTERNS_RAW = [
-"180-400:0001100",
-"180-400:000001100",
 "180-200:44444444444|33333333333|22222222222|11111111111|11111111111", 
 "64-32:00000400000400000|00000000000000000|00400000400000400|03030003030003030|20202020202020202|00000000000000000|12121012121012121|11111011111011111", 
 "180-0:00001410000|00010001000|00102220100|01020302010|10203430201|40234443204|10203430201|01020302010|00102220100|00010001000|00001410000", 
@@ -207,10 +205,8 @@ function Wave() {
 	    while (line.length > 0) {
 		res.enemies[i][j] = parseInt(line.substring(0,1));
 		line = line.slice(1);
-//		console.log("decode: "+res.enemies[i][j]+"->"+res.enemies[i]);
 		j++;
 	    }
-//	    console.log("line: "+res.enemies.length);
 	}
 	return res;
     }
@@ -220,10 +216,8 @@ function Wave() {
 	var y = -40 * (pattern.enemies.length+1);
 	var lines = pattern.enemies;
 	for (i in lines) {
-//	    console.log("lines : "+i+"("+lines+")");
 	    var line = pattern.enemies[i];
 	    for (j in line) {
-//		console.log("spawning : "+i+','+j);
 		if (line[j] > 0)
 		    this.pool.spawn([x, y, line[j]]);
 		x += 40;
@@ -245,7 +239,11 @@ function Wave() {
     }
     
     var reset = function() {
-	this.state = 'dead';
+	state = 'dead';
+    }
+
+    this.getState = function() {
+	return state;
     }
 
 }

@@ -122,7 +122,13 @@ function Level() {
 	save.init(function(){this.saveProgresses();},
 		  TRIGGER_PRESS);
 	var cont = new Event();
-	cont.init(function(){this.continueGame();}, TRIGGER_RELEASE);
+	cont.init(function(){
+	    console.log("before: "+wait);
+	    this.continueGame(); 
+	    wait=false;
+	    console.log("after: "+wait);
+	}, 
+		  TRIGGER_RELEASE);
 	var saveInput = new InputMap();
 	var gameInput = new InputMap();
 	saveInput.init();
@@ -191,9 +197,10 @@ function Level() {
 	this.bullets.update();
 	this.player.update();
 	this.enemies.update();
-	if (this.enemies.state == 'dead' && !wait) {
+	if (this.enemies.getState() == 'dead' && !wait) {
 	    // end of a wave
 	    waves++;
+	    updateWaves();
 	    document.getElementById("endWave").style.display = "block";
 	    this.controller.disable(0);
 	    this.controller.enable(1);
@@ -218,12 +225,10 @@ function Level() {
     };
 
     this.continueGame = function() {
-	console.log("not display");
 	document.getElementById("endWave").style.display = "none";
-	this.enemies.newWave();
+	this.enemies.newWave.call(this.enemies);
 	this.controller.enable(0);
 	this.controller.disable(1);
-//	wait = false;
     };
 
 }
