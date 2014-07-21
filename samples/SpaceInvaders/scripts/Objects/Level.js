@@ -126,7 +126,7 @@ function Level() {
 	    this.continueGame(); 
 	    wait=false;
 	}, 
-		  TRIGGER_RELEASE);
+		  TRIGGER_PRESSED);
 	var saveInput = new InputMap();
 	var gameInput = new InputMap();
 	saveInput.init();
@@ -245,7 +245,6 @@ function download(filename, data) {
 
     // Remove anchor from body
     document.body.removeChild(a)
-    console.log("opening prompt");
 }
 
 function getSaveState() {
