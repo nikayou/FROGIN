@@ -88,11 +88,11 @@ Enemy.prototype = new GameObject();
  * "|" - new line
  */
 PATTERNS_RAW = [
-"180-200:44444444444|33333333333|22222222222|11111111111|11111111111", 
-"64-32:00000400000400000|00000000000000000|00400000400000400|03030003030003030|20202020202020202|00000000000000000|12121012121012121|11111011111011111", 
+"180:44444444444|33333333333|22222222222|11111111111|11111111111", 
+"64:00000400000400000|00000000000000000|00400000400000400|03030003030003030|20202020202020202|00000000000000000|12121012121012121|11111011111011111", 
 "180-0:00001410000|00010001000|00102220100|01020302010|10203430201|40234443204|10203430201|01020302010|00102220100|00010001000|00001410000", 
-"20-32:3430343034303430343|0300030003000300030|0023202320232023200|0002000200020002000|0000121012101210000|0000010001000100000|0000001210121000000|000000010001000000", 
-"40-64:440000004400044000|330000033330033000|330000330033033000|220000220022022000|220000220022022000|111110011110011111|111110001100011111"
+"20:3430343034303430343|0300030003000300030|0023202320232023200|0002000200020002000|0000121012101210000|0000010001000100000|0000001210121000000|000000010001000000", 
+"40:440000004400044000|330000033330033000|330000330033033000|220000220022022000|220000220022022000|111110011110011111|111110001100011111"
 ]; 
 PATTERNS = [];
 
@@ -109,7 +109,9 @@ function Wave() {
      */
 
     var state = 'birth'; // birth, living, dead, as a cycle
-    var patternIndex = 0;
+    var patternIndex = -1;
+    var frontLine = 0; // target Y before enemies start moving
+    var lastUnit = null; // last unit of the pool, for birth
 
     this.init = function() {
 	this.speedX = 64;
@@ -166,7 +168,7 @@ function Wave() {
 	    
 	    //
 	    if (state == 'birth') {
-		if (this.pool.units[0].y >= PATTERNS[patternIndex].y) {
+		if (lastUnit.y >= 40) {
 		    state = 'living';
 		} else {
 		    var speedYdelta = this.speedY * deltaTime;
@@ -174,7 +176,7 @@ function Wave() {
 		}
 		return;
 	    }
-	    if (this.forward){
+	    if (this.forward) {
 		var speedYdelta = this.speedY * deltaTime;
 		this.pool.moveAll(0, speedYdelta);	
 		this.prev += speedYdelta;
@@ -191,12 +193,10 @@ function Wave() {
 
     var decodePattern = function(pattern) {
 	var res = new Object();
-	var dash = pattern.indexOf("-");
 	var colon = pattern.indexOf(":");
 	var enemies = pattern.substring(colon+1);
 	var lines = enemies.split('|');
-	res.x = parseInt(pattern.substring(0, dash));
-	res.y = parseInt(pattern.substring(dash+1, colon));
+	res.x = parseInt(pattern.substring(0, colon));
 	res.enemies = [];
 	for (i in lines) {
 	    var line = lines[i];
@@ -225,6 +225,9 @@ function Wave() {
 	    x = 0 + pattern.x;
 	    y += 40;
 	}
+	frontLine = 40*pattern.enemies.length;
+	lastUnit = this.pool.getLastActive();
+	console.log("new frontline : "+frontLine);
     }
 
     this.newWave = function() {

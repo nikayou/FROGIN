@@ -100,4 +100,13 @@ function Pool() {
 	return isActive;
     }
 
+    this.getLastActive = function() {
+	for (var i = this.units.length-1; i >= 0; i--) {
+	    if (this.units[i].active) {
+		return this.units[i];
+	    }
+	}
+	return null;
+    }
+
 }

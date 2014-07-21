@@ -52,7 +52,7 @@ function Level() {
 	this.enemies = new Wave();
 	this.enemies.init();
 	// TODO : random ?
-	this.enemies.spawnWave(PATTERNS[0]);
+	this.enemies.newWave();
 	// init controller
 	this.controller = new Controller();
 	this.controller.init(this);
@@ -126,7 +126,7 @@ function Level() {
 	    this.continueGame(); 
 	    wait=false;
 	}, 
-		  TRIGGER_PRESSED);
+		  TRIGGER_PRESS);
 	var saveInput = new InputMap();
 	var gameInput = new InputMap();
 	saveInput.init();
