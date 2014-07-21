@@ -9,7 +9,7 @@ function AssetManager() {
      * assets - loaded assets mapped to the file's name
      */
 
-    this.assets = [];
+    var assets = [];
     
     // loads all files in the given list
     this.init = function(l) {
@@ -28,14 +28,14 @@ function AssetManager() {
 
     // add a file with a given key, 
     this.add = function(key, asset) {
-	this.assets[key] = asset;
+	assets[key] = asset;
     };
 
     // creates a file (overload) and maps it to its name
     this.loadFromFile = function(filePath) {
 	var obj = this.createObject(); // undefined here
 	obj.loadFromFile(filePath);
-	this.assets[filePath] = obj;
+	assets[filePath] = obj;
     };
 
     // creates a file (overload) and maps it to the given id
@@ -43,12 +43,12 @@ function AssetManager() {
 	var obj = this.createObject(); // undefined here
 	console.log("loading "+filePath);
 	obj.loadFromFile(filePath);
-	this.assets[id] = obj;
+	assets[id] = obj;
     };
 
     // returns the asset associated with the given key
     this.get = function(key) {
-	return this.assets[key];
+	return assets[key];
     };
     
     // nullifies the given key (effect: asset not accessible anymore via this)
@@ -58,21 +58,21 @@ function AssetManager() {
 
     // removes all objects of the manager
     this.clean = function() {
-	this.assets = [];
+	assets = [];
     };
     
     // removes every asset whose id is not in the given list
     this.keep = function(l) {
-	for (i in this.assets) {
+	for (i in assets) {
 	    if (!i in l) {
-		this.assets[i] = null;
+		assets[i] = null;
 	    }
 	}
     };
 
     // returns the number of assets already loaded
     this.getCount = function() {
-	return this.assets.length;
+	return assets.length;
     };
 
 }

@@ -36,6 +36,9 @@ function Level() {
      * bullets - array containing the bullets
      * canvas_* - different canvases to display
      */
+
+    var wait = false; // when the prompt is waiting for an input
+
     this.init = function() {
 	this.loadAssets();
 	this.initRenderer();
@@ -48,7 +51,8 @@ function Level() {
 	this.bullets.init(32, [-20, -20, 0]);
 	this.enemies = new Wave();
 	this.enemies.init();
-	this.enemies.spawn(PATTERNS[0]);
+	// TODO : random ?
+	this.enemies.spawnWave(PATTERNS[0]);
 	// init controller
 	this.controller = new Controller();
 	this.controller.init(this);
@@ -71,6 +75,10 @@ function Level() {
 	for (i in units) {	    
 	    this.collisionManager.addObject( units[i]);
 	}
+	var endPrompt = document.getElementById("endWave");
+	endPrompt.style.left = (400-(endPrompt.offsetWidth/2))+"px";
+	endPrompt.style.top = (300-(endPrompt.offsetHeight/2))+"px";
+	document.getElementById("endWave").style.display = "none";
 	/*
 	 * The two following functions are necessary because otherwise, 
 	 * "controller.updateDown" is called with the Window as context.
@@ -90,7 +98,7 @@ function Level() {
 	 */
 	document.addEventListener("keydown", callDown.apply(this)(), false);
 	document.addEventListener("keyup", callUp.apply(this)(), false);
-	var spaceAction = (function(){ 
+	var shoot = (function(){ 
 	    var last = new Date();
 	    return function() {
 		var now = new Date();
@@ -103,7 +111,7 @@ function Level() {
 		}
 	    } })();
 	var event = new Event();
-	event.init(spaceAction, TRIGGER_MAINTAIN);
+	event.init(shoot, TRIGGER_MAINTAIN);
 	var left = new Event();
 	left.init(function(){this.player.move(-A_SPEED);}, 
 		  TRIGGER_MAINTAIN);
@@ -111,10 +119,14 @@ function Level() {
 	right.init(function(){this.player.move(A_SPEED);},
 		   TRIGGER_MAINTAIN);
 	var save = new Event();
-	save.init(function(){saveProgresses.call(this);},
+	save.init(function(){this.saveProgresses();},
 		  TRIGGER_PRESS);
 	var cont = new Event();
-	cont.init(function(){continueGame.call(this);}, TRIGGER_RELEASE);
+	cont.init(function(){
+	    this.continueGame(); 
+	    wait=false;
+	}, 
+		  TRIGGER_RELEASE);
 	var saveInput = new InputMap();
 	var gameInput = new InputMap();
 	saveInput.init();
@@ -175,7 +187,6 @@ function Level() {
 
     this.update = function() {
 	Level.prototype.update();
-	console.log("update");
 	var commands = this.controller.getCommands();
 	for (var i = 0; i < commands.length; i++) {
 	    commands[i].call(this);
@@ -184,8 +195,14 @@ function Level() {
 	this.bullets.update();
 	this.player.update();
 	this.enemies.update();
-	if (this.enemies.state == 'dead') {
-	    nextWave.apply(this);
+	if (this.enemies.getState() == 'dead' && !wait) {
+	    // end of a wave
+	    waves++;
+	    updateWaves();
+	    document.getElementById("endWave").style.display = "block";
+	    this.controller.disable(0);
+	    this.controller.enable(1);
+	    wait = true;
 	}
 	this.collisionManager.update();
 	document.getElementById("fps").innerHTML = "dt: "+deltaTime;
@@ -201,32 +218,15 @@ function Level() {
 	this.background.exit();
     };
 
-    var wait = false;
-    var nextWave = function() {
-	if (!wait) {
-	    wait = true;
-	    var gui = document.getElementById('gui-container');
-	    var next = document.createElement('p');
-	    next.className= "gui prompt";
-	    next.innerHTML = "Finished wave. Press Space to continue, S to save. ";
-	    gui.appendChild(next);
-	    // centering it
-	    next.style.left = (400-(next.offsetWidth/2))+"px";
-	    next.style.top = (300-(next.offsetHeight/2))+"px";
-	    this.controller.disable(0);
-	    this.controller.enable(1);
-	}
-    };
-
-    var saveProgresses = function() {
-	console.log("saving");
+    this.saveProgresses = function() {
 	this.controller.disable(1);
 	download("save.json", getSaveState.call(this));
 	this.controller.enable(1);
     };
 
-    var continueGame = function() {
-	alert("continuing game...");
+    this.continueGame = function() {
+	document.getElementById("endWave").style.display = "none";
+	this.enemies.newWave.call(this.enemies);
 	this.controller.enable(0);
 	this.controller.disable(1);
     };

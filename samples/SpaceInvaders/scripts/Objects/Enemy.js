@@ -87,14 +87,14 @@ Enemy.prototype = new GameObject();
  * "1234" - level of the enemy
  * "|" - new line
  */
-PATTERNS = [
-"180-400:0001100",
-"180-100:44444444444|33333333333|22222222222|11111111111|11111111111", 
+PATTERNS_RAW = [
+"180-200:44444444444|33333333333|22222222222|11111111111|11111111111", 
 "64-32:00000400000400000|00000000000000000|00400000400000400|03030003030003030|20202020202020202|00000000000000000|12121012121012121|11111011111011111", 
 "180-0:00001410000|00010001000|00102220100|01020302010|10203430201|40234443204|10203430201|01020302010|00102220100|00010001000|00001410000", 
 "20-32:3430343034303430343|0300030003000300030|0023202320232023200|0002000200020002000|0000121012101210000|0000010001000100000|0000001210121000000|000000010001000000", 
 "40-64:440000004400044000|330000033330033000|330000330033033000|220000220022022000|220000220022022000|111110011110011111|111110001100011111"
 ]; 
+PATTERNS = [];
 
 FORWARD_STEP = 16;
 
@@ -109,12 +109,17 @@ function Wave() {
      */
 
     var state = 'birth'; // birth, living, dead, as a cycle
+    var patternIndex = 0;
 
     this.init = function() {
 	this.speedX = 64;
 	this.speedY = 64;
 	this.forward = false;
 	this.prev = 0;
+	for (var i = 0; i < PATTERNS_RAW.length; i++) {
+	    var p = decodePattern(PATTERNS_RAW[i]);
+	    PATTERNS[i] = p;
+	}
 	this.pool = new EnemyPool();
 	this.pool.init(64, ["enemy", -20, -20, 1]);
 	this.pool.moveAll = function(x, y) {
@@ -146,18 +151,36 @@ function Wave() {
 	(function(){
 	    this.pool.units[0].clear();
 	    this.pool.update();
-	    // checking for a living unit
-	    if (!this.pool.isActive()) {
+	    // checking for a living unit	  
+	    var n = 0;
+	    for (i in this.pool.units) {
+		if (this.pool.units[i].active) {
+		    n++;
+		    break;
+		}
+	    }
+	    if (n == 0) {
 		reset.apply(this);
 		return;
-	    }	    
+	    }
+	    
+	    //
+	    if (state == 'birth') {
+		if (this.pool.units[0].y >= PATTERNS[patternIndex].y) {
+		    state = 'living';
+		} else {
+		    var speedYdelta = this.speedY * deltaTime;
+		    this.pool.moveAll(0, speedYdelta);
+		}
+		return;
+	    }
 	    if (this.forward){
 		var speedYdelta = this.speedY * deltaTime;
 		this.pool.moveAll(0, speedYdelta);	
 		this.prev += speedYdelta;
 		if (this.prev >= FORWARD_STEP) {
 		    this.forward = false;
-		}
+		}			
 	    } else if (this.pool.moveAll(this.speedX * deltaTime, 0) ) {
  		this.forward = true;
 		this.prev = 0;
@@ -166,31 +189,61 @@ function Wave() {
 	}).apply(this);
     }
 
-    this.spawn = function(pattern) {
+    var decodePattern = function(pattern) {
+	var res = new Object();
 	var dash = pattern.indexOf("-");
 	var colon = pattern.indexOf(":");
-	var originalX = parseInt(pattern.substring(0, dash));
-	var x = 0;
-	x += originalX;
-	var y = parseInt(pattern.substring(dash+1, colon));
 	var enemies = pattern.substring(colon+1);
 	var lines = enemies.split('|');
+	res.x = parseInt(pattern.substring(0, dash));
+	res.y = parseInt(pattern.substring(dash+1, colon));
+	res.enemies = [];
 	for (i in lines) {
 	    var line = lines[i];
+	    var j = 0;
+	    res.enemies[i] = [];
 	    while (line.length > 0) {
-		var lvl = parseInt(line.substring(0,1));
-		if (lvl != 0)
-		    this.pool.spawn([x, y, lvl]);
-		x += 40;
+		res.enemies[i][j] = parseInt(line.substring(0,1));
 		line = line.slice(1);
+		j++;
 	    }
-	    x = 0 + originalX;
+	}
+	return res;
+    }
+
+    this.spawnWave = function(pattern) {
+	var x = pattern.x;
+	var y = -40 * (pattern.enemies.length+1);
+	var lines = pattern.enemies;
+	for (i in lines) {
+	    var line = pattern.enemies[i];
+	    for (j in line) {
+		if (line[j] > 0)
+		    this.pool.spawn([x, y, line[j]]);
+		x += 40;
+	    }	    
+	    x = 0 + pattern.x;
 	    y += 40;
 	}
     }
+
+    this.newWave = function() {
+	patternIndex++;
+	if (patternIndex >= PATTERNS.length) {
+	    patternIndex = 0;
+	    // TODO : increase difficulty
+	}
+	var pattern = PATTERNS[patternIndex];
+	state = 'birth';
+	this.spawnWave(pattern);	
+    }
     
     var reset = function() {
-	this.state = 'dead';
+	state = 'dead';
+    }
+
+    this.getState = function() {
+	return state;
     }
 
 }
