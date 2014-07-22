@@ -25,6 +25,7 @@ function Enemy() {
 	this.graphics  = new Animation();
 	this.changeLevel(lvl);
 	this.health = this.level;
+	dying = false;
     }
     this.update = function() {
 	if (dying) {
@@ -38,6 +39,7 @@ function Enemy() {
     }
     this.changeLevel = function(lvl) {
 	if (this.level != lvl && lvl > 0) {
+	    this.level = lvl;
 	    var sprt = spritesheetManager.get("enemy"+lvl);
 	    this.graphics.init(sprt, textureManager.get("spritesheet") );
 	}
@@ -53,23 +55,25 @@ function Enemy() {
 	this.x = x;
 	this.y = y;
 	this.collider.x = x;
-	this.collider.y = y;
+	this.collider.y = y;	
 	this.changeLevel(lvl);
 	this.health = lvl;
+	dying = false;
+	deathTime = 0;
+	this.graphics.playAnimation("move", false);
     }
     this.kill = function() {
 	updateScore(1);
 	this.reset(0, 0, 0);
-	this.active = 0;
+	this.active = false;
     }
     this.loseHealth = function() {
 	this.health --;
 	if (this.health <= 0) {
 	    this.collider.x = -32;
 	    this.collider.y = -32;
-	    this.collider.width = 1;
-	    this.collider.height = 1;
 	    dying = true;
+	    deathTime = 0;
 	    this.graphics.playAnimation("death", false);
 	}else {	    
 	    this.graphics.playAnimation("hit", false);
@@ -215,17 +219,20 @@ function Wave() {
 	var x = pattern.x;
 	var y = -40 * (pattern.enemies.length+1);
 	var lines = pattern.enemies;
+	this.pool.despawnAll();
 	for (i in lines) {
 	    var line = pattern.enemies[i];
 	    for (j in line) {
-		if (line[j] > 0)
-		    this.pool.spawn([x, y, line[j]]);
+		if (line[j] > 0) {
+//		    console.log("spawning "+line[j]+" at "+x+","+y);
+		    var u = this.pool.spawn([x, y, line[j]]);
+		}
 		x += 40;
 	    }	    
 	    x = 0 + pattern.x;
 	    y += 40;
 	}
-	frontLine = 40*pattern.enemies.length;
+	frontLine = 40 * pattern.enemies.length;
 	lastUnit = this.pool.getLastActive();
 	console.log("new frontline : "+frontLine);
     }

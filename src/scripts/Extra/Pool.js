@@ -54,6 +54,7 @@ function Pool() {
     this.spawn = function(args) {
 	var unit = this.units[MAX_UNITS-1];
 	if(!unit.active) {
+	    console.log("unit is free");
 	    unit.active = true;
 	    unit.reset.apply(unit, args);
 	    this.units.unshift(this.units.pop());
@@ -68,6 +69,25 @@ function Pool() {
      */
     this.despawn = function(i) {
 	this.units.push((this.units.splice(i,1))[0]);
+	this.units[i].active = false;
+    };
+
+    /**
+     * Sets all units as inactive
+     */
+    this.despawnAll = function() {
+	for (i in this.units) {
+	    this.units[i].active = false;
+	}
+    };
+
+    /**
+     * Resets all units
+     */
+    this.resetAll = function() {
+	for (i in this.units) {
+	    this.resetUnit(this.units[i]);
+	}
     };
 
     /**
@@ -103,9 +123,11 @@ function Pool() {
     this.getLastActive = function() {
 	for (var i = this.units.length-1; i >= 0; i--) {
 	    if (this.units[i].active) {
+		console.log("last active is "+i);
 		return this.units[i];
 	    }
 	}
+	console.log("no active");
 	return null;
     }
 

@@ -64,7 +64,7 @@ function Level() {
 		    && !(o1.name === "enemy" && o2.name === "bullet"));
 	});
 	var explode = function(o1, o2) {
-	    o1.kill();
+//	    o1.kill();
 	    o2.loseHealth();
 	};
 	this.collisionManager.registerAction("bullet", "enemy", explode);
