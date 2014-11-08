@@ -10,7 +10,8 @@ It is developped in HTML, CSS and JavaScript.
 * Rendering (layers)
 * Controls
 * Files (save/load)
-* 
+
+
 ## Note 
 
 This project was made during holiday. Now it won't be continued. Feel free to contribute. Here are some things : 
